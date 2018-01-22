@@ -22,8 +22,8 @@ s.ios.deployment_target = '10.0'
 
 s.source_files     = 'SWSkeleton/Core/**/*'
 s.framework        = 'UIKit'
-#s.ios.xcconfig     = { "OTHER_SWIFT_FLAGS[config=Debug]" => "-D DEBUG" }
-#s.pod_target_xcconfig = { 'SWIFT_VERSION' => '4.0' }
+s.ios.xcconfig     = { "OTHER_SWIFT_FLAGS[config=Debug]" => "-D DEBUG" }
+s.pod_target_xcconfig = { 'SWIFT_VERSION' => '4.0' }
 
 s.dependency 'Alamofire', '4.6.0'
 s.dependency 'AlamofireImage', '3.3.0'
