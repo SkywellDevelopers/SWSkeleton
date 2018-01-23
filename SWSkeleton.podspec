@@ -20,7 +20,7 @@ s.source           = { :git => 'https://github.com/SkywellDevelopers/SWSkeleton.
 
 s.ios.deployment_target = '10.0'
 
-s.source_files     = 'SWSkeleton/Core/**/*'
+s.source_files     = 'SWSkeleton/Core/**'
 s.framework        = 'UIKit'
 s.ios.xcconfig     = { "OTHER_SWIFT_FLAGS[config=Debug]" => "-D DEBUG" }
 s.pod_target_xcconfig = { 'SWIFT_VERSION' => '4.0' }
