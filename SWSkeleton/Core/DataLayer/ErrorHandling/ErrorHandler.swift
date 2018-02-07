@@ -29,7 +29,6 @@ public extension ErrorProtocol {
     public init(statusCode: Int) {
         guard let code = StatusCodeType.init(statusCode) else {
             self.init()
-            self = Self.default
             return
         }
         self.init(statusCode: code)

@@ -18,6 +18,36 @@ public protocol RealmClientProtocol {
 }
 
 public extension RealmClientProtocol {
+    
+    func updateValue<T: Object>(_ type: T.Type,
+                                predicate: NSPredicate,
+                                value: Any?,
+                                forKey key: String) {
+        do {
+            let realm = try Realm()
+            if let object = realm.objects(type).filter(predicate).first {
+                try realm.write {
+                    object.setValue(value, forKey: key)
+                }
+            }
+        } catch {
+            Log.error.log("RealmProtocol: error \(error.localizedDescription) with saving type \(type)")
+        }
+    }
+    
+    func updateValue<T: Object>(of object: inout T,
+                                value: Any?,
+                                forKey key: String) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                object.setValue(value, forKey: key)
+            }
+        } catch {
+            Log.error.log("RealmProtocol: error \(error.localizedDescription) with saving type \(T.self)")
+        }
+    }
+    
     ///  Save Realm model with update
     ///
     ///  Parameter model: model

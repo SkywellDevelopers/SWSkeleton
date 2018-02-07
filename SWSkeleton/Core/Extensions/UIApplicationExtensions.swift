@@ -31,11 +31,11 @@ public extension UIApplication {
         return base
     }
 
-    public var statusBar: UIView? {
+    public static var statusBar: UIView? {
         return UIApplication.shared.value(forKey: "statusBar") as? UIView
     }
     
-    public var statusBarIsHidden: Bool {
+    public static var statusBarIsHidden: Bool {
         get {
             return self.statusBar?.alpha == 0 ? true : false
         }

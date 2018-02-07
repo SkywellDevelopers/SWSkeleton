@@ -55,7 +55,7 @@ public extension RegisterViewProtocol {
     func configureRx() {}
 }
 
-public extension RegisterViewProtocol where Self:UIView {
+public extension RegisterViewProtocol where Self: UIView {
     public static var nibName: String {
         return String(describing: self)
     }
@@ -86,7 +86,7 @@ public extension RegisterViewProtocol where Self:UIView {
 public protocol XibProtocol {}
 
 public extension XibProtocol where Self: UIViewController {
-    public static func initiateFromXIB() -> Self {
+    public static func instantiateFromXIB() -> Self {
         return Self.init(nibName: String(describing: Self.self), bundle: Bundle.main)
     }
 }

@@ -13,10 +13,8 @@ open class BaseViewController: UIViewController {
     override open func viewDidLoad() {
         super.viewDidLoad()
         
-        (self.view as? BaseView)?._viewController = self
         (self.view as? BaseView)?.didLoad()
         self.view.subviews.forEach { (view) in
-            (self.view as? BaseView)?._viewController = self
             (view as? BaseView)?.didLoad()
         }
     }
@@ -60,7 +58,8 @@ open class BaseViewController: UIViewController {
 
 open class BaseView: UIView {
     
-    weak fileprivate var _viewController: UIViewController?
+    @IBInspectable
+    open var containsLoadingView: Bool = false
     
     open var loadingView: LoadingViewType = DataManager.shared.loaderView
     
@@ -73,15 +72,9 @@ open class BaseView: UIView {
     open func didDisappear(_ animated: Bool) {}
     
     open func didLoad() {
+        guard self.containsLoadingView else { return }
         self.addSubview(self.loadingView)
         self.loadingView.center = self.center
-        self.loadingView.layer.zPosition = .greatestFiniteMagnitude
-    }
-}
-
-public extension BaseView {
-    public func viewController<T: UIViewController>() -> T? {
-        guard let vc = self._viewController as? T else { return nil }
-        return vc
+        self.loadingView.layer.zPosition = CGFloat(Float.greatestFiniteMagnitude)
     }
 }

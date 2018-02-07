@@ -14,7 +14,7 @@ public extension Array where Element: Hashable {
             return nil
         }
         
-        if let index = self.index(of: element), index+1 < self.count {
+        if let index = self.index(of: element), index + 1 < self.count {
             return self[index + 1]
         }
         
@@ -32,8 +32,17 @@ public extension Array where Element: Hashable {
         
         return nil
     }
+}
+
+public extension Array {
     
     public subscript(safe index: Index) -> Iterator.Element? {
         return indices.contains(index) ? self[index] : nil
+    }
+    
+    public func forEach(_ body: @escaping (Index, Element) throws -> Void) rethrows {
+        for index in 0 ..< self.count {
+            try body(index, self[index])
+        }
     }
 }

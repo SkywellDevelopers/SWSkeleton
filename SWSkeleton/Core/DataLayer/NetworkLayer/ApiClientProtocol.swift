@@ -24,6 +24,11 @@ public extension ApiClientProtocol {
     // MARK: - RxObjectMapper
     
     public func rxExecute<T: BaseMappable>(_ request: ApiRequestProtocol) -> Observable<T?> {
+        guard DataManager.shared.isInternetAvailable else {
+            let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
+            return Observable.error(error)
+        }
+        
         request.logDescription()
         
         return Observable.create { observer in
@@ -46,6 +51,11 @@ public extension ApiClientProtocol {
     }
     
     public func rxExecute<T: BaseMappable>(_ request: ApiRequestProtocol) -> Observable<[T]> {
+        guard DataManager.shared.isInternetAvailable else {
+            let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
+            return Observable.error(error)
+        }
+        
         request.logDescription()
         
         return Observable.create { observer in
@@ -70,6 +80,11 @@ public extension ApiClientProtocol {
     // MARK: - RxCodable
     
     public func rxExecute<T: ModelProtocol>(_ request: ApiRequestProtocol) -> Observable<T?> {
+        guard DataManager.shared.isInternetAvailable else {
+            let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
+            return Observable.error(error)
+        }
+        
         request.logDescription()
         
         return Observable.create { observer in
@@ -92,6 +107,11 @@ public extension ApiClientProtocol {
     }
     
     public func rxExecute<T: ModelProtocol>(_ request: ApiRequestProtocol) -> Observable<[T]?> {
+        guard DataManager.shared.isInternetAvailable else {
+            let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
+            return Observable.error(error)
+        }
+        
         request.logDescription()
         
         return Observable.create { observer in
@@ -116,6 +136,11 @@ public extension ApiClientProtocol {
     // MARK: - Rx Simple types
     
     public func rxExecute(_ request: ApiRequestProtocol) -> Observable<String?> {
+        guard DataManager.shared.isInternetAvailable else {
+            let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
+            return Observable.error(error)
+        }
+        
         request.logDescription()
         
         return Observable.create { observer in
@@ -138,6 +163,11 @@ public extension ApiClientProtocol {
     }
     
     public func rxExecute(_ request: ApiRequestProtocol) -> Observable<Image?> {
+        guard DataManager.shared.isInternetAvailable else {
+            let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
+            return Observable.error(error)
+        }
+        
         request.logDescription()
         
         return Observable.create { observer in
@@ -160,6 +190,11 @@ public extension ApiClientProtocol {
     }
     
     public func rxExecute(_ request: ApiRequestProtocol) -> Observable<Data?> {
+        guard DataManager.shared.isInternetAvailable else {
+            let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
+            return Observable.error(error)
+        }
+        
         request.logDescription()
         
         return Observable.create { observer in
@@ -187,6 +222,12 @@ public extension ApiClientProtocol {
                                           queue: DispatchQueue? = nil,
                                           success: @escaping (_ result: T?) -> Void,
                                           failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {
+        guard DataManager.shared.isInternetAvailable else {
+            let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
+            failure(error)
+            return
+        }
+        
         request.logDescription()
         
         request.dataRequest.responseJSON(queue: queue) { (response) in
@@ -201,6 +242,12 @@ public extension ApiClientProtocol {
                                           queue: DispatchQueue? = nil,
                                           success: @escaping (_ result: [T]?) -> Void,
                                           failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {
+        guard DataManager.shared.isInternetAvailable else {
+            let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
+            failure(error)
+            return
+        }
+        
         request.logDescription()
         
         request.dataRequest.responseJSON(queue: queue) { (response) in
@@ -219,6 +266,12 @@ public extension ApiClientProtocol {
                                          queue: DispatchQueue? = nil,
                                          success: @escaping (_ result: [T]) -> Void,
                                          failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {
+        guard DataManager.shared.isInternetAvailable else {
+            let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
+            failure(error)
+            return
+        }
+        
         request.logDescription()
         
         request.dataRequest.responseJSON(queue: queue) { (response) in
@@ -235,6 +288,12 @@ public extension ApiClientProtocol {
                                          queue: DispatchQueue? = nil,
                                          success: @escaping (_ result: T?) -> Void,
                                          failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {
+        guard DataManager.shared.isInternetAvailable else {
+            let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
+            failure(error)
+            return
+        }
+        
         request.logDescription()
         
         request.dataRequest.responseJSON(queue: queue) { (response) in
@@ -252,6 +311,12 @@ public extension ApiClientProtocol {
                         encoding: String.Encoding? = nil,
                         success: @escaping (_ result: String?) -> Void,
                         failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {
+        guard DataManager.shared.isInternetAvailable else {
+            let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
+            failure(error)
+            return
+        }
+        
         request.logDescription()
         
         request.dataRequest.responseString(queue: queue, encoding: encoding) { (response) in
@@ -268,6 +333,12 @@ public extension ApiClientProtocol {
                         queue: DispatchQueue? = nil,
                         success: @escaping (_ result: Image?) -> Void,
                         failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {
+        guard DataManager.shared.isInternetAvailable else {
+            let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
+            failure(error)
+            return
+        }
+        
         request.logDescription()
         
         request.dataRequest.responseImage(imageScale: imageScale,
@@ -284,6 +355,12 @@ public extension ApiClientProtocol {
                         queue: DispatchQueue? = nil,
                         success: @escaping (_ result: Data?) -> Void,
                         failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {
+        guard DataManager.shared.isInternetAvailable else {
+            let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
+            failure(error)
+            return
+        }
+        
         request.logDescription()
         
         request.dataRequest.responseData(queue: queue) { (response) in

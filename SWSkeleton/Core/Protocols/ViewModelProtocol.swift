@@ -45,19 +45,17 @@ public protocol UpdateProtocol {
     mutating func update()
     mutating func update(_ parameters: DictionaryAlias)
     mutating func update(_ page: Int)
-    mutating func update<T, E>(_ success: @escaping (T) -> Void, _ failure: @escaping (E) -> Void)
     mutating func update<T>(_ completion: @escaping (T) -> Void)
-    mutating func update<T, E>(_ success: @escaping (T?) -> Void, _ failure: @escaping (E?) -> Void)
     mutating func update<T>(_ completion: @escaping (T?) -> Void)
+    mutating func update<T, E>(_ success: @escaping (T) -> Void, _ failure: @escaping (E) -> Void)
+    mutating func update<T, E>(_ success: @escaping (T?) -> Void, _ failure: @escaping (E?) -> Void)
 }
 
 public extension UpdateProtocol {
     mutating func update() {}
     mutating func update(_ parameters: DictionaryAlias) {}
     mutating func update(_ page: Int) {}
-    mutating func update<T, E: ErrorProtocol>(_ success: @escaping (T) -> Void, _ failure: @escaping (E) -> Void) {}
     mutating func update<T>(_ completion: @escaping (T) -> Void) {}
-    mutating func update<T, E: ErrorProtocol>(_ success: @escaping (T?) -> Void, _ failure: @escaping (E?) -> Void) {}
     mutating func update<T>(_ completion: @escaping (T?) -> Void) {}
     mutating func update<T, E>(_ success: @escaping (T) -> Void, _ failure: @escaping (E) -> Void) {}
     mutating func update<T, E>(_ success: @escaping (T?) -> Void, _ failure: @escaping (E?) -> Void) {}

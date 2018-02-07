@@ -21,6 +21,9 @@ public final class DataManager: NSObject {
     open var sessionManager: SessionManager = SessionManager.default
     
     open var validStatusCodeRange = 200..<300
-    open var internetConnectionErrorStatusCode = 0
+    open var internetConnectionErrorStatusCode = -1009
     open var dataBaseErrorStatusCode = 5000
+    public var isInternetAvailable: Bool {
+        return NetworkReachabilityManager()?.isReachable ?? false
+    }
 }
