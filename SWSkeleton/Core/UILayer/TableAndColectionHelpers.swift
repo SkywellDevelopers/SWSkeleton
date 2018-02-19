@@ -76,18 +76,20 @@ public extension UITableView {
     ///
     /// - Parameter _: UITableViewCell.Type that conform RegisterCellProtocol
     public func registerNib<T: UITableViewCell>(_: T.Type) where T: RegisterCellProtocol {
-        guard (Bundle.main.path(forResource: T.nibName, ofType: "nib") != nil) else {
+        let bundle = Bundle(for: T.self)
+        guard (bundle.path(forResource: T.nibName, ofType: "nib") != nil) else {
             fatalError("Could not find xib with name: \(T.nibName)")
         }
-        self.register(UINib(nibName:T.nibName, bundle:nil), forCellReuseIdentifier: T.reuseIdentifier)
+        self.register(UINib(nibName:T.nibName, bundle: bundle), forCellReuseIdentifier: T.reuseIdentifier)
     }
 
     public func register<T: UITableViewCell, Z: UITableViewCell>(_: T.Type, withNib:Z.Type) where T: RegisterCellProtocol, Z: RegisterCellProtocol {
-        guard (Bundle.main.path(forResource: Z.nibName, ofType: "nib") != nil) else {
+        let bundle = Bundle(for: T.self)
+        guard (bundle.path(forResource: Z.nibName, ofType: "nib") != nil) else {
             fatalError("Could not find xib with name: \(T.nibName)")
         }
         Log.info.log("REGISTER WITH IDENT \(T.reuseIdentifier)")
-        self.register(UINib(nibName:Z.nibName, bundle:nil), forCellReuseIdentifier: T.reuseIdentifier)
+        self.register(UINib(nibName:Z.nibName, bundle: bundle), forCellReuseIdentifier: T.reuseIdentifier)
     }
 
     /// Dequeue cell. CellClass must confrom RegisterCellProtocol
@@ -110,10 +112,11 @@ public extension UICollectionView {
     }
 
     public func registerNib<T: UICollectionViewCell>(_: T.Type) where T: RegisterCellProtocol {
-        guard (Bundle.main.path(forResource: T.nibName, ofType: "nib") != nil) else {
+        let bundle = Bundle(for: T.self)
+        guard (bundle.path(forResource: T.nibName, ofType: "nib") != nil) else {
             fatalError("Could not find xib with name: \(T.nibName)")
         }
-        self.register(UINib(nibName:T.nibName, bundle:nil), forCellWithReuseIdentifier: T.reuseIdentifier)
+        self.register(UINib(nibName: T.nibName, bundle: bundle), forCellWithReuseIdentifier: T.reuseIdentifier)
     }
 
     public func dequeueReusableCell<T: UICollectionViewCell>(forIndexPath indexPath: IndexPath) -> T where T: RegisterCellProtocol {

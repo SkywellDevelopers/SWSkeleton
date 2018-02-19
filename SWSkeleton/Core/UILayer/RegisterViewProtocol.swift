@@ -62,18 +62,18 @@ public extension RegisterViewProtocol where Self: UIView {
 
     /// Returns view from nib or create new view programaticaly
     public func xibSetupView() -> UIView {
-        let nib = UINib(nibName: Self.nibName, bundle: nil)
-
+        let nib = UINib(nibName: Self.nibName, bundle: Bundle(for: Self.self))
+        
         var view: UIView
-        if Bundle.main.path(forResource: Self.nibName, ofType: "nib") == nil {
+        if Bundle(for: Self.self).path(forResource: Self.nibName, ofType: "nib") == nil {
             view = UIView(frame: self.bounds)
         } else {
             view = nib.instantiate(withOwner: self, options: nil)[0] as? UIView ?? UIView(frame: self.bounds)
         }
-
+        
         view.frame = bounds
         view.backgroundColor = .clear
-
+        
         view.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
         addSubview(view)
         return view
@@ -86,7 +86,7 @@ public extension RegisterViewProtocol where Self: UIView {
 public protocol XibProtocol {}
 
 public extension XibProtocol where Self: UIViewController {
-    public static func instantiateFromXIB() -> Self {
-        return Self.init(nibName: String(describing: Self.self), bundle: Bundle.main)
+    public static func instantiateFromXib() -> Self {
+        return Self.init(nibName: String(describing: Self.self), bundle: Bundle(for: Self.self))
     }
 }

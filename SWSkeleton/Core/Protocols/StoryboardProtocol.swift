@@ -12,11 +12,17 @@ import UIKit
 /// Storyboard protocol
 public protocol StoryboardProtocol {
     var storyboardName: String { get }
+    var storyboard: UIStoryboard { get }
+    var bundle: Bundle? { get }
 }
 
 public extension StoryboardProtocol {
     public var storyboard: UIStoryboard {
-        return UIStoryboard(name: self.storyboardName, bundle: nil)
+        return UIStoryboard(name: self.storyboardName, bundle: self.bundle)
+    }
+    
+    public var bundle: Bundle? {
+        return nil
     }
     
     /// try get initial storyboard cntrl
