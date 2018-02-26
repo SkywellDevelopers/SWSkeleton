@@ -21,6 +21,33 @@ public protocol ApiClientProtocol {
 
 public extension ApiClientProtocol {
     
+    // MARK: - RxDefaultResponse
+    
+    public func rxExecute(_ request: ApiRequestProtocol) -> Observable<Void> {
+        guard DataManager.shared.isInternetAvailable else {
+            let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
+            return Observable.error(error)
+        }
+        
+        return Observable.create { observer in
+            let dataRequest = request.dataRequest
+            dataRequest.response(completionHandler: { (response) in
+                self.handleResponse(response: response,
+                                    logResponse: request.logResponseDescription, 
+                                    success: {
+                                        observer.on(.next(()))
+                                        observer.on(.completed)
+                                    }, failure: { (error) in
+                                        observer.on(.error(error))
+                                    })
+            })
+            
+            return Disposables.create {
+                dataRequest.cancel()
+            }
+        }
+    }
+    
     // MARK: - RxObjectMapper
     
     public func rxExecute<T: BaseMappable>(_ request: ApiRequestProtocol) -> Observable<T?> {
@@ -216,17 +243,29 @@ public extension ApiClientProtocol {
         }
     }
     
+    // MARK: - DefaultResponse
+    
+    public func execute(_ request: ApiRequestProtocol,
+                        queue: DispatchQueue? = nil,
+                        success: @escaping () -> Void,
+                        failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {
+        guard self.checkInternetConnection(failure: failure) else { return }
+        
+        request.dataRequest.response(queue: queue) { (response) in
+            self.handleResponse(response: response,
+                                logResponse: request.logResponseDescription,
+                                success: success,
+                                failure: failure)
+        }
+    }
+    
     // MARK: - Codable
     
     public func execute<T: ModelProtocol>(_ request: ApiRequestProtocol,
                                           queue: DispatchQueue? = nil,
                                           success: @escaping (_ result: T?) -> Void,
                                           failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {
-        guard DataManager.shared.isInternetAvailable else {
-            let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
-            failure(error)
-            return
-        }
+        guard self.checkInternetConnection(failure: failure) else { return }
         
         request.logDescription()
         
@@ -242,11 +281,7 @@ public extension ApiClientProtocol {
                                           queue: DispatchQueue? = nil,
                                           success: @escaping (_ result: [T]?) -> Void,
                                           failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {
-        guard DataManager.shared.isInternetAvailable else {
-            let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
-            failure(error)
-            return
-        }
+        guard self.checkInternetConnection(failure: failure) else { return }
         
         request.logDescription()
         
@@ -266,11 +301,7 @@ public extension ApiClientProtocol {
                                          queue: DispatchQueue? = nil,
                                          success: @escaping (_ result: [T]) -> Void,
                                          failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {
-        guard DataManager.shared.isInternetAvailable else {
-            let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
-            failure(error)
-            return
-        }
+        guard self.checkInternetConnection(failure: failure) else { return }
         
         request.logDescription()
         
@@ -288,11 +319,7 @@ public extension ApiClientProtocol {
                                          queue: DispatchQueue? = nil,
                                          success: @escaping (_ result: T?) -> Void,
                                          failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {
-        guard DataManager.shared.isInternetAvailable else {
-            let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
-            failure(error)
-            return
-        }
+        guard self.checkInternetConnection(failure: failure) else { return }
         
         request.logDescription()
         
@@ -311,11 +338,7 @@ public extension ApiClientProtocol {
                         encoding: String.Encoding? = nil,
                         success: @escaping (_ result: String?) -> Void,
                         failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {
-        guard DataManager.shared.isInternetAvailable else {
-            let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
-            failure(error)
-            return
-        }
+        guard self.checkInternetConnection(failure: failure) else { return }
         
         request.logDescription()
         
@@ -333,11 +356,7 @@ public extension ApiClientProtocol {
                         queue: DispatchQueue? = nil,
                         success: @escaping (_ result: Image?) -> Void,
                         failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {
-        guard DataManager.shared.isInternetAvailable else {
-            let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
-            failure(error)
-            return
-        }
+        guard self.checkInternetConnection(failure: failure) else { return }
         
         request.logDescription()
         
@@ -355,11 +374,7 @@ public extension ApiClientProtocol {
                         queue: DispatchQueue? = nil,
                         success: @escaping (_ result: Data?) -> Void,
                         failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {
-        guard DataManager.shared.isInternetAvailable else {
-            let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
-            failure(error)
-            return
-        }
+        guard self.checkInternetConnection(failure: failure) else { return }
         
         request.logDescription()
         
@@ -381,6 +396,13 @@ public extension ApiClientProtocol {
         Log.verbose.log("-------")
     }
     
+    private func logResponse(_ response: DefaultDataResponse, logResponse: Bool) {
+        guard logResponse else { return }
+        Log.verbose.log("-------")
+        Log.verbose.log("Response for \(response.request?.url?.path ?? "")")
+        Log.verbose.log("-------")
+    }
+    
     private func responseValidation<T>(response: DataResponse<T>, logResponse: Bool) -> (isValid: Bool, statusCode: Int) {
         self.logResponse(response, logResponse: logResponse)
         
@@ -395,7 +417,43 @@ public extension ApiClientProtocol {
         return (true, statusCode)
     }
     
+    private func responseValidation(response: DefaultDataResponse, logResponse: Bool) -> (isValid: Bool, statusCode: Int) {
+        self.logResponse(response, logResponse: logResponse)
+        
+        let internetConnection = DataManager.shared
+        guard response.response != nil, let statusCode = response.response?.statusCode else {
+            return (false, internetConnection.internetConnectionErrorStatusCode)
+        }
+        guard internetConnection.validStatusCodeRange ~= statusCode else {
+            return (false, statusCode)
+        }
+        
+        return (true, statusCode)
+    }
+    
+    private func checkInternetConnection(failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) -> Bool {
+        guard DataManager.shared.isInternetAvailable else {
+            let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
+            failure(error)
+            return false
+        }
+        
+        return true
+    }
+    
     // MARK: - Response handle
+    
+    private func handleResponse(response: DefaultDataResponse,
+                                logResponse: Bool,
+                                success: @escaping () -> Void,
+                                failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {
+        let validation = self.responseValidation(response: response, logResponse: logResponse)
+        guard validation.isValid == true else {
+            failure(ErrorHandlerType.ErrorType(statusCode: validation.statusCode))
+            return
+        }
+        success()
+    }
     
     private func handleResponse<T: ModelProtocol>(response: DataResponse<Any>,
                                                   logResponse: Bool,
