@@ -166,7 +166,7 @@ extension RealmOptional: Encodable {
         
         var container = encoder.singleValueContainer()
         if let v = self.value {
-            try (v as? Encodable).encode(to: encoder)
+            try (v as! Encodable).encode(to: encoder)
         } else {
             try container.encodeNil()
         }
@@ -181,8 +181,8 @@ extension RealmOptional: Decodable {
         
         let container = try decoder.singleValueContainer()
         if !container.decodeNil() {
-            let metaType = (Value.self as? Decodable.Type)
-            let element = try metaType?.init(from: decoder)
+            let metaType = (Value.self as! Decodable.Type)
+            let element = try metaType.init(from: decoder)
             self.value = (element as? Value)
         }
     }
@@ -214,7 +214,7 @@ extension List: Encodable {
             // superEncoder appends an empty element and wraps an Encoder around it.
             // This is normally appropriate for encoding super, but this is really what we want to do.
             let subencoder = container.superEncoder()
-            try (element as? Encodable).encode(to: subencoder)
+            try (element as! Encodable).encode(to: subencoder)
         }
     }
 }
