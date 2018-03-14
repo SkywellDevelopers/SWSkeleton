@@ -51,13 +51,13 @@ public struct SWError: ErrorProtocol {
     }
     
     init(errorModel: SWErrorModel) {
-        self.init(statusCode: errorModel.statusCode)
+        self.statusCode = SWStatusCode(rawValue: errorModel.statusCode ?? 0) ?? .badRequest
         self.message = errorModel.message ?? SWError.defaultErrorMessage
     }
 }
 
 public struct SWErrorModel: ModelProtocol {
-    var statusCode: Int
+    var statusCode: Int?
     var message: String?
 }
 

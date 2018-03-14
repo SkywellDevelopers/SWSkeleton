@@ -9,9 +9,15 @@
 import Foundation
 import RealmSwift
 
-public protocol ModelProtocol: Codable {}
+public protocol ModelProtocol: Codable {
+    static var ignoreParseException: Bool { get }
+}
 
 public extension ModelProtocol {
+    static var ignoreParseException: Bool {
+        return false
+    }
+    
     public func toJSON() -> [String : Any]? {
         guard let data = try? JSONEncoder().encode(self) else { return nil }
         return (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)).flatMap { $0 as? [String: Any] }
@@ -32,6 +38,10 @@ public extension ModelProtocol {
             let object = try JSONDecoder().decode(Self.self, from: data)
             self = object
         } catch let error {
+            guard !Self.ignoreParseException else {
+                Log.error.log(error.localizedDescription)
+                return nil
+            }
             #if DEBUG
                 fatalError(error.localizedDescription)
             #else
@@ -47,6 +57,10 @@ public extension ModelProtocol {
             let object = try JSONDecoder().decode(Self.self, from: data)
             self = object
         } catch let error {
+            guard !Self.ignoreParseException else {
+                Log.error.log(error.localizedDescription)
+                return nil
+            }
             #if DEBUG
                 fatalError(error.localizedDescription)
             #else
@@ -66,6 +80,10 @@ public extension Array where Element: ModelProtocol {
             let objects = try JSONDecoder().decode([Element].self, from: data)
             self = objects
         } catch let error {
+            guard !Element.ignoreParseException else {
+                Log.error.log(error.localizedDescription)
+                return nil
+            }
             #if DEBUG
                 fatalError(error.localizedDescription)
             #else
@@ -82,6 +100,10 @@ public extension Array where Element: ModelProtocol {
             let objects: [Element] = try JSONDecoder().decode([Element].self, from: data)
             self = objects
         } catch let error {
+            guard !Element.ignoreParseException else {
+                Log.error.log(error.localizedDescription)
+                return nil
+            }
             #if DEBUG
                 fatalError(error.localizedDescription)
             #else
