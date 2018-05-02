@@ -12,11 +12,11 @@ PODS:
   - RxSwift (4.1.2)
 
 DEPENDENCIES:
-  - Alamofire
-  - AlamofireImage
-  - RealmSwift
-  - RxCocoa
-  - RxSwift
+  - Alamofire (= 4.7.2)
+  - AlamofireImage (= 3.3.1)
+  - RealmSwift (= 3.5.0)
+  - RxCocoa (= 4.1.2)
+  - RxSwift (= 4.1.2)
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -35,6 +35,6 @@ SPEC CHECKSUMS:
   RxCocoa: d88ba0f1f6abf040011a9eb4b539324fc426843a
   RxSwift: e49536837d9901277638493ea537394d4b55f570
 
-PODFILE CHECKSUM: b8f23497b20ff53e350ed9b6521be19c42683352
+PODFILE CHECKSUM: 7e2cc83f7294cf7c998c679d20b466768d6f14cd
 
 COCOAPODS: 1.5.0
