@@ -19,11 +19,14 @@ public protocol ApiRequestProtocol {
     var url: String { get }
     var logRequestDescription: Bool { get }
     var logResponseDescription: Bool { get }
+    var dataRequest: DataRequest { get }
+    var needsValidation: Bool { get }
+    var validStatusCodeRanges: [Int] { get }
 }
 
 public extension ApiRequestProtocol {
     public var sessionManager: SessionManager {
-        return DataManager.shared.sessionManager
+        return .skeleton
     }
     public var HTTPMethod: HTTPMethod {
         return .get
@@ -48,6 +51,14 @@ public extension ApiRequestProtocol {
                                                   encoding: self.encoding,
                                                   headers: self.headers)
         return request
+    }
+    
+    public var needsValidation: Bool {
+        return true
+    }
+    
+    public var validStatusCodeRanges: [Int] {
+        return DataManager.shared.validStatusCodeRanges
     }
     
     public var logRequestDescription: Bool {

@@ -46,8 +46,8 @@
 		AB2FCA732015F69300EBA687 /* BaseUIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2FCA522015F69300EBA687 /* BaseUIKit.swift */; };
 		AB2FCA742015F69300EBA687 /* LoadingViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2FCA532015F69300EBA687 /* LoadingViewProtocol.swift */; };
 		AB2FCA752015F69300EBA687 /* RegisterViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2FCA542015F69300EBA687 /* RegisterViewProtocol.swift */; };
-		AB2FCA762015F69300EBA687 /* ShadowbleProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2FCA552015F69300EBA687 /* ShadowbleProtocol.swift */; };
-		AB2FCA772015F69300EBA687 /* TableAndColectionHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2FCA562015F69300EBA687 /* TableAndColectionHelpers.swift */; };
+		AB2FCA762015F69300EBA687 /* ShadowleProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2FCA552015F69300EBA687 /* ShadowleProtocol.swift */; };
+		AB2FCA772015F69300EBA687 /* TableAndCollectionHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2FCA562015F69300EBA687 /* TableAndCollectionHelpers.swift */; };
 		ABF23A402004E791006C4D73 /* SWSkeleton.h in Headers */ = {isa = PBXBuildFile; fileRef = ABF23A3E2004E791006C4D73 /* SWSkeleton.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C3FC7873719C4C5D954176D0 /* Pods_SWSkeleton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 783940CE55913BB344ED91F7 /* Pods_SWSkeleton.framework */; };
 /* End PBXBuildFile section */
@@ -94,8 +94,8 @@
 		AB2FCA522015F69300EBA687 /* BaseUIKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseUIKit.swift; sourceTree = "<group>"; };
 		AB2FCA532015F69300EBA687 /* LoadingViewProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewProtocol.swift; sourceTree = "<group>"; };
 		AB2FCA542015F69300EBA687 /* RegisterViewProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewProtocol.swift; sourceTree = "<group>"; };
-		AB2FCA552015F69300EBA687 /* ShadowbleProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShadowbleProtocol.swift; sourceTree = "<group>"; };
-		AB2FCA562015F69300EBA687 /* TableAndColectionHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableAndColectionHelpers.swift; sourceTree = "<group>"; };
+		AB2FCA552015F69300EBA687 /* ShadowleProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShadowleProtocol.swift; sourceTree = "<group>"; };
+		AB2FCA562015F69300EBA687 /* TableAndCollectionHelpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableAndCollectionHelpers.swift; sourceTree = "<group>"; };
 		ABF23A3B2004E791006C4D73 /* SWSkeleton.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SWSkeleton.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABF23A3E2004E791006C4D73 /* SWSkeleton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SWSkeleton.h; sourceTree = "<group>"; };
 		ABF23A3F2004E791006C4D73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -235,8 +235,8 @@
 				AB2FCA522015F69300EBA687 /* BaseUIKit.swift */,
 				AB2FCA532015F69300EBA687 /* LoadingViewProtocol.swift */,
 				AB2FCA542015F69300EBA687 /* RegisterViewProtocol.swift */,
-				AB2FCA552015F69300EBA687 /* ShadowbleProtocol.swift */,
-				AB2FCA562015F69300EBA687 /* TableAndColectionHelpers.swift */,
+				AB2FCA552015F69300EBA687 /* ShadowleProtocol.swift */,
+				AB2FCA562015F69300EBA687 /* TableAndCollectionHelpers.swift */,
 			);
 			path = UILayer;
 			sourceTree = "<group>";
@@ -310,7 +310,6 @@
 				ABF23A372004E791006C4D73 /* Frameworks */,
 				ABF23A382004E791006C4D73 /* Headers */,
 				ABF23A392004E791006C4D73 /* Resources */,
-				8AB3E56DF4E711E1B39FF885 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -364,34 +363,22 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		8AB3E56DF4E711E1B39FF885 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SWSkeleton/Pods-SWSkeleton-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		F9133EB159C6065A08D35506 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SWSkeleton-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -411,7 +398,7 @@
 				AB0340F92016216A00EDE101 /* StringExtensions.swift in Sources */,
 				AB2FCA622015F69300EBA687 /* RxRealmExtensions.swift in Sources */,
 				AB0340EF20161DED00EDE101 /* ArrayExtensions.swift in Sources */,
-				AB2FCA772015F69300EBA687 /* TableAndColectionHelpers.swift in Sources */,
+				AB2FCA772015F69300EBA687 /* TableAndCollectionHelpers.swift in Sources */,
 				AB0340EB20161D7B00EDE101 /* OptionalExtensions.swift in Sources */,
 				AB0340F320161E5500EDE101 /* UIViewExtensions.swift in Sources */,
 				AB2FCA5F2015F69300EBA687 /* ViewModel.swift in Sources */,
@@ -439,7 +426,7 @@
 				AB2FCA702015F69300EBA687 /* StoryboardProtocol.swift in Sources */,
 				AB0340F72016206600EDE101 /* DictionaryExtensions.swift in Sources */,
 				AB2FCA6A2015F69300EBA687 /* DefaultErrorHandler.swift in Sources */,
-				AB2FCA762015F69300EBA687 /* ShadowbleProtocol.swift in Sources */,
+				AB2FCA762015F69300EBA687 /* ShadowleProtocol.swift in Sources */,
 				AB2FCA632015F69300EBA687 /* DataManager.swift in Sources */,
 				AB2FCA5C2015F69300EBA687 /* RemoteStorage.swift in Sources */,
 			);

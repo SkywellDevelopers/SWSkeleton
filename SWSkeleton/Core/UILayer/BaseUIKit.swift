@@ -61,7 +61,7 @@ open class BaseView: UIView {
     @IBInspectable
     open var containsLoadingView: Bool = false
     
-    open var loadingView: LoadingViewType = DataManager.shared.loaderView
+    open lazy var loadingView: LoadingViewType = DataManager.shared.loaderView
     
     open func willAppear(_ animated: Bool) {}
     

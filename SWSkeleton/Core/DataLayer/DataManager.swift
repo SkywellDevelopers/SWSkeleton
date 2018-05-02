@@ -20,10 +20,21 @@ public final class DataManager: NSObject {
     open var serverConnectionErrorMessage: String = "No internet connection"
     open var sessionManager: SessionManager = SessionManager.default
     
-    open var validStatusCodeRange = 200..<300
+    open var validStatusCodeRanges: [Int] = Array(200..<300)
     open var internetConnectionErrorStatusCode = -1009
     open var dataBaseErrorStatusCode = 5000
     public var isInternetAvailable: Bool {
         return NetworkReachabilityManager()?.isReachable ?? false
+    }
+}
+
+extension SessionManager {
+    static var skeleton: SessionManager {
+        get {
+            return DataManager.shared.sessionManager
+        }
+        set {
+            DataManager.shared.sessionManager = newValue
+        }
     }
 }

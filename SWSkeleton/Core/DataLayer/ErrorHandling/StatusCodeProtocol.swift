@@ -22,7 +22,7 @@ public extension StatusCodeProtocol where Self: RawRepresentable, Self.RawValue 
     }
     
     public var isRequestErrorCode: Bool {
-        return !self.isDataBaseErrorCode && DataManager.shared.validStatusCodeRange ~= self.rawValue
+        return !(self.isDataBaseErrorCode && DataManager.shared.validStatusCodeRanges.contains(self.rawValue))
     }
     
     public init?(_ statusCode: Int) {

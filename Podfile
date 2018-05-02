@@ -5,12 +5,10 @@ target 'SWSkeleton' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
   
-  pod 'Alamofire', '4.6.0'
-  pod 'AlamofireImage', '3.3.0'
-  pod 'RealmSwift', '3.0.2'
-  pod 'RxSwift', '4.1.0'
-  pod 'RxCocoa', '4.1.0'
-  pod 'ObjectMapper', '3.1.0'
-  # Pods for SWSkeleton
-
+  pod 'Alamofire', '4.7.2'
+  pod 'AlamofireImage', '3.3.1'
+  pod 'RealmSwift', '3.5.0'
+  pod 'RxSwift', '4.1.2'
+  pod 'RxCocoa', '4.1.2'
+  
 end

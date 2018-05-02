@@ -185,4 +185,60 @@ public extension RealmClientProtocol {
             return Observable<RealmCollectionChanges<[M]>>.error(error)
         }
     }
+    
+    public func addObjectToArray<T: Object>(array: List<T>, object: T) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                array.append(object)
+            }
+        } catch {
+            Log.warning.log("RealmProtocol: error \(error.localizedDescription). Cannot append object \(T.self)")
+        }
+    }
+    
+    public func addObjectsToArray<T: Object>(array: List<T>, objects: [T]) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                array.append(objectsIn: objects)
+            }
+        } catch {
+            Log.warning.log("RealmProtocol: error \(error.localizedDescription). Cannot append objects \(T.self)")
+        }
+    }
+    
+    public func removeObjects<T: Object>(_ objects: [T]) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                realm.delete(objects)
+            }
+        } catch {
+            Log.warning.log("RealmProtocol: error \(error.localizedDescription). Cannot delete objects \(T.self)")
+        }
+    }
+    
+    public func removeObjects<T: Object>(_ objects: List<T>) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                realm.delete(objects)
+            }
+        } catch {
+            Log.warning.log("RealmProtocol: error \(error.localizedDescription). Cannot delete objects \(T.self)")
+        }
+    }
+    
+    public func updateValue<T: Object>(_ type: T.Type, value: Any?, forKey key: String) {
+        do {
+            let realm = try Realm()
+            let object = realm.objects(type).first
+            try realm.write {
+                object?.setValue(value, forKey: key)
+            }
+        } catch {
+            Log.warning.log("RealmProtocol: error \(error.localizedDescription). Cannot update value of object \(T.self)")
+        }
+    }
 }

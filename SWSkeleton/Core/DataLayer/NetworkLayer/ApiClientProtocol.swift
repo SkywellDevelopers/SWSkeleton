@@ -9,7 +9,6 @@
 import Foundation
 import Alamofire
 import AlamofireImage
-import ObjectMapper
 import RxSwift
 import RxCocoa
 
@@ -31,72 +30,19 @@ public extension ApiClientProtocol {
         
         return Observable.create { observer in
             let dataRequest = request.dataRequest
-            dataRequest.response(completionHandler: { (response) in
-                self.handleResponse(response: response,
-                                    logResponse: request.logResponseDescription, 
-                                    success: {
-                                        observer.on(.next(()))
-                                        observer.on(.completed)
-                                    }, failure: { (error) in
-                                        observer.on(.error(error))
-                                    })
+            
+            dataRequest
+                .validate(self.validation(request))
+                .response(completionHandler: { (response) in
+                    self.handleResponse(response: response,
+                                        logResponse: request.logResponseDescription,
+                                        success: {
+                                            observer.on(.next(()))
+                                            observer.on(.completed)
+                                        }, failure: { (error) in
+                                            observer.on(.error(error))
+                                        })
             })
-            
-            return Disposables.create {
-                dataRequest.cancel()
-            }
-        }
-    }
-    
-    // MARK: - RxObjectMapper
-    
-    public func rxExecute<T: BaseMappable>(_ request: ApiRequestProtocol) -> Observable<T?> {
-        guard DataManager.shared.isInternetAvailable else {
-            let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
-            return Observable.error(error)
-        }
-        
-        request.logDescription()
-        
-        return Observable.create { observer in
-            let dataRequest = request.dataRequest
-            dataRequest.responseJSON { (response) in
-                self.handleResponse(response: response,
-                                    logResponse: request.logResponseDescription,
-                                    success: { (model: T?) in
-                                        observer.on(.next(model))
-                                        observer.on(.completed)
-                                    }, failure: { (error) in
-                                        observer.on(.error(error))
-                                    })
-            }
-            
-            return Disposables.create {
-                dataRequest.cancel()
-            }
-        }
-    }
-    
-    public func rxExecute<T: BaseMappable>(_ request: ApiRequestProtocol) -> Observable<[T]> {
-        guard DataManager.shared.isInternetAvailable else {
-            let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
-            return Observable.error(error)
-        }
-        
-        request.logDescription()
-        
-        return Observable.create { observer in
-            let dataRequest = request.dataRequest
-            dataRequest.responseJSON { (response) in
-                self.handleResponse(response: response,
-                                    logResponse: request.logResponseDescription,
-                                    success: { (model: [T]) in
-                                        observer.on(.next(model))
-                                        observer.on(.completed)
-                                    }, failure: { (error) in
-                                        observer.on(.error(error))
-                                    })
-            }
             
             return Disposables.create {
                 dataRequest.cancel()
@@ -116,15 +62,17 @@ public extension ApiClientProtocol {
         
         return Observable.create { observer in
             let dataRequest = request.dataRequest
-            dataRequest.responseJSON { (response) in
-                self.handleResponse(response: response,
-                                    logResponse: request.logResponseDescription,
-                                    success: { (model: T?) in
-                                        observer.on(.next(model))
-                                        observer.on(.completed)
-                                    }, failure: { (error) in
-                                        observer.on(.error(error))
-                                    })
+            dataRequest
+                .validate(self.validation(request))
+                .responseJSON { (response) in
+                    self.handleResponse(response: response,
+                                        logResponse: request.logResponseDescription,
+                                        success: { (model: T?) in
+                                            observer.on(.next(model))
+                                            observer.on(.completed)
+                                        }, failure: { (error) in
+                                            observer.on(.error(error))
+                                        })
             }
             
             return Disposables.create {
@@ -143,15 +91,17 @@ public extension ApiClientProtocol {
         
         return Observable.create { observer in
             let dataRequest = request.dataRequest
-            dataRequest.responseJSON { (response) in
-                self.handleResponse(response: response,
-                                    logResponse: request.logResponseDescription,
-                                    success: { (model: [T]?) in
-                                        observer.on(.next(model))
-                                        observer.on(.completed)
-                                    }, failure: { (error) in
-                                        observer.on(.error(error))
-                                    })
+            request.dataRequest
+                .validate(self.validation(request))
+                .responseJSON { (response) in
+                    self.handleResponse(response: response,
+                                        logResponse: request.logResponseDescription,
+                                        success: { (model: [T]?) in
+                                            observer.on(.next(model))
+                                            observer.on(.completed)
+                                        }, failure: { (error) in
+                                            observer.on(.error(error))
+                                        })
             }
             
             return Disposables.create {
@@ -172,15 +122,17 @@ public extension ApiClientProtocol {
         
         return Observable.create { observer in
             let dataRequest = request.dataRequest
-            dataRequest.responseString { (response) in
-                self.handleResponse(response: response,
-                                    logResponse: request.logResponseDescription,
-                                    success: { (result: String?) in
-                                        observer.on(.next(result))
-                                        observer.on(.completed)
-                                    }, failure: { (error) in
-                                        observer.on(.error(error))
-                                    })
+            dataRequest
+                .validate(self.validation(request))
+                .responseString { (response) in
+                    self.handleResponse(response: response,
+                                        logResponse: request.logResponseDescription,
+                                        success: { (result: String?) in
+                                            observer.on(.next(result))
+                                            observer.on(.completed)
+                                        }, failure: { (error) in
+                                            observer.on(.error(error))
+                                        })
             }
             
             return Disposables.create {
@@ -199,15 +151,17 @@ public extension ApiClientProtocol {
         
         return Observable.create { observer in
             let dataRequest = request.dataRequest
-            dataRequest.responseImage { (response) in
-                self.handleResponse(response: response,
-                                    logResponse: request.logResponseDescription,
-                                    success: { (result: Image?) in
-                                        observer.on(.next(result))
-                                        observer.on(.completed)
-                                    }, failure: { (error) in
-                                        observer.on(.error(error))
-                                    })
+            dataRequest
+                .validate(self.validation(request))
+                .responseImage { (response) in
+                    self.handleResponse(response: response,
+                                        logResponse: request.logResponseDescription,
+                                        success: { (result: Image?) in
+                                            observer.on(.next(result))
+                                            observer.on(.completed)
+                                        }, failure: { (error) in
+                                            observer.on(.error(error))
+                                        })
             }
             
             return Disposables.create {
@@ -226,15 +180,17 @@ public extension ApiClientProtocol {
         
         return Observable.create { observer in
             let dataRequest = request.dataRequest
-            dataRequest.responseData { (response) in
-                self.handleResponse(response: response,
-                                    logResponse: request.logResponseDescription,
-                                    success: { (result: Data?) in
-                                        observer.on(.next(result))
-                                        observer.on(.completed)
-                                    }, failure: { (error) in
-                                        observer.on(.error(error))
-                                    })
+            dataRequest
+                .validate(self.validation(request))
+                .responseData { (response) in
+                    self.handleResponse(response: response,
+                                        logResponse: request.logResponseDescription,
+                                        success: { (result: Data?) in
+                                            observer.on(.next(result))
+                                            observer.on(.completed)
+                                        }, failure: { (error) in
+                                            observer.on(.error(error))
+                                        })
             }
             
             return Disposables.create {
@@ -251,11 +207,13 @@ public extension ApiClientProtocol {
                         failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {
         guard self.checkInternetConnection(failure: failure) else { return }
         
-        request.dataRequest.response(queue: queue) { (response) in
-            self.handleResponse(response: response,
-                                logResponse: request.logResponseDescription,
-                                success: success,
-                                failure: failure)
+        request.dataRequest
+            .validate(self.validation(request))
+            .response(queue: queue) { (response) in
+                self.handleResponse(response: response,
+                                    logResponse: request.logResponseDescription,
+                                    success: success,
+                                    failure: failure)
         }
     }
     
@@ -269,11 +227,13 @@ public extension ApiClientProtocol {
         
         request.logDescription()
         
-        request.dataRequest.responseJSON(queue: queue) { (response) in
-            self.handleResponse(response: response,
-                                logResponse: request.logResponseDescription,
-                                success: success,
-                                failure: failure)
+        request.dataRequest
+            .validate(self.validation(request))
+            .responseJSON(queue: queue) { (response) in
+                self.handleResponse(response: response,
+                                    logResponse: request.logResponseDescription,
+                                    success: success,
+                                    failure: failure)
         }
     }
 
@@ -285,49 +245,13 @@ public extension ApiClientProtocol {
         
         request.logDescription()
         
-        request.dataRequest.responseJSON(queue: queue) { (response) in
-            self.handleResponse(response: response,
-                                logResponse: request.logResponseDescription,
-                                success: success,
-                                failure: failure)
-        }
-    }
-
-    // MARK: - ObjectMapper
-
-    /// DESC: - Array of objects
-
-    public func execute<T: BaseMappable>(_ request: ApiRequestProtocol,
-                                         queue: DispatchQueue? = nil,
-                                         success: @escaping (_ result: [T]) -> Void,
-                                         failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {
-        guard self.checkInternetConnection(failure: failure) else { return }
-        
-        request.logDescription()
-        
-        request.dataRequest.responseJSON(queue: queue) { (response) in
-            self.handleResponse(response: response,
-                                logResponse: request.logResponseDescription,
-                                success: success,
-                                failure: failure)
-        }
-    }
-
-    /// Singe object response
-
-    public func execute<T: BaseMappable>(_ request: ApiRequestProtocol,
-                                         queue: DispatchQueue? = nil,
-                                         success: @escaping (_ result: T?) -> Void,
-                                         failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {
-        guard self.checkInternetConnection(failure: failure) else { return }
-        
-        request.logDescription()
-        
-        request.dataRequest.responseJSON(queue: queue) { (response) in
-            self.handleResponse(response: response,
-                                logResponse: request.logResponseDescription,
-                                success: success,
-                                failure: failure)
+        request.dataRequest
+            .validate(self.validation(request))
+            .responseJSON(queue: queue) { (response) in
+                self.handleResponse(response: response,
+                                    logResponse: request.logResponseDescription,
+                                    success: success,
+                                    failure: failure)
         }
     }
     
@@ -342,11 +266,13 @@ public extension ApiClientProtocol {
         
         request.logDescription()
         
-        request.dataRequest.responseString(queue: queue, encoding: encoding) { (response) in
-            self.handleResponse(response: response,
-                                logResponse: request.logResponseDescription,
-                                success: success,
-                                failure: failure)
+        request.dataRequest
+            .validate(self.validation(request))
+            .responseString(queue: queue, encoding: encoding) { (response) in
+                self.handleResponse(response: response,
+                                    logResponse: request.logResponseDescription,
+                                    success: success,
+                                    failure: failure)
         }
     }
     
@@ -360,13 +286,15 @@ public extension ApiClientProtocol {
         
         request.logDescription()
         
-        request.dataRequest.responseImage(imageScale: imageScale,
-                                          inflateResponseImage: inflateResponseImage,
-                                          queue: queue) { (response) in
-                                            self.handleResponse(response: response,
-                                                                logResponse: request.logResponseDescription,
-                                                                success: success,
-                                                                failure: failure)
+        request.dataRequest
+            .validate(self.validation(request))
+            .responseImage(imageScale: imageScale,
+                           inflateResponseImage: inflateResponseImage,
+                           queue: queue) { (response) in
+                self.handleResponse(response: response,
+                                    logResponse: request.logResponseDescription,
+                                    success: success,
+                                    failure: failure)
         }
     }
     
@@ -378,11 +306,13 @@ public extension ApiClientProtocol {
         
         request.logDescription()
         
-        request.dataRequest.responseData(queue: queue) { (response) in
-            self.handleResponse(response: response,
-                                logResponse: request.logResponseDescription,
-                                success: success,
-                                failure: failure)
+        request.dataRequest
+            .validate(self.validation(request))
+            .responseData(queue: queue) { (response) in
+                self.handleResponse(response: response,
+                                    logResponse: request.logResponseDescription,
+                                    success: success,
+                                    failure: failure)
         }
     }
     
@@ -405,15 +335,15 @@ public extension ApiClientProtocol {
     
     private func responseValidation<T>(response: DataResponse<T>, logResponse: Bool) -> (isValid: Bool, statusCode: Int) {
         self.logResponse(response, logResponse: logResponse)
-        
+
         let internetConnection = DataManager.shared
         guard response.response != nil, let statusCode = response.response?.statusCode else {
             return (false, internetConnection.internetConnectionErrorStatusCode)
         }
-        guard internetConnection.validStatusCodeRange ~= statusCode else {
+        guard internetConnection.validStatusCodeRanges.contains(statusCode) else {
             return (false, statusCode)
         }
-        
+
         return (true, statusCode)
     }
     
@@ -424,7 +354,7 @@ public extension ApiClientProtocol {
         guard response.response != nil, let statusCode = response.response?.statusCode else {
             return (false, internetConnection.internetConnectionErrorStatusCode)
         }
-        guard internetConnection.validStatusCodeRange ~= statusCode else {
+        guard internetConnection.validStatusCodeRanges.contains(statusCode) else {
             return (false, statusCode)
         }
         
@@ -441,115 +371,96 @@ public extension ApiClientProtocol {
         return true
     }
     
+    private func validation(_ request: ApiRequestProtocol) -> (URLRequest?, HTTPURLResponse, Data?) -> Request.ValidationResult {
+        let closure: (URLRequest?, HTTPURLResponse, Data?) -> Request.ValidationResult = { urlRequest, response, data in
+            guard request.needsValidation else { return .success }
+            guard request.validStatusCodeRanges.contains(response.statusCode) else {
+                return .failure(ErrorHandlerType.ErrorType(statusCode: response.statusCode))
+            }
+            
+            return .success
+        }
+        
+        return closure
+    }
+    
     // MARK: - Response handle
     
     private func handleResponse(response: DefaultDataResponse,
                                 logResponse: Bool,
                                 success: @escaping () -> Void,
                                 failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {
+        
         let validation = self.responseValidation(response: response, logResponse: logResponse)
         guard validation.isValid == true else {
             failure(ErrorHandlerType.ErrorType(statusCode: validation.statusCode))
             return
         }
         success()
+        
     }
     
     private func handleResponse<T: ModelProtocol>(response: DataResponse<Any>,
                                                   logResponse: Bool,
                                                   success: @escaping (_ result: T?) -> Void,
                                                   failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {
-        let validation = self.responseValidation(response: response, logResponse: logResponse)
-        guard validation.isValid == true else {
-            failure(ErrorHandlerType.handleError(statusCode: validation.statusCode, response: response))
-            return
-        }
-        guard let json = response.result.value as? DictionaryAlias else {
-            #if DEBUG
+        self.logResponse(response, logResponse: logResponse)
+        switch response.result {
+        case .success(let value):
+            guard let json = value as? DictionaryAlias else {
+                #if DEBUG
                 fatalError("Cannot cast response to type [String: Any]")
-            #else
+                #else
                 return
-            #endif
+                #endif
+            }
+            let model = T.self.init(JSON: json)
+            success(model)
+        case .failure(let error):
+            guard let statusCode = response.response?.statusCode else {
+                failure(ErrorHandlerType.handleError(error))
+                return
+            }
+            failure(ErrorHandlerType.handleError(statusCode: statusCode, response: response))
         }
-        let model = T.self.init(JSON: json)
-        success(model)
     }
     
     private func handleResponse<T: ModelProtocol>(response: DataResponse<Any>,
                                                   logResponse: Bool,
                                                   success: @escaping (_ result: [T]?) -> Void,
                                                   failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {
-        let validation = self.responseValidation(response: response, logResponse: logResponse)
-        guard validation.isValid == true else {
-            failure(ErrorHandlerType.handleError(statusCode: validation.statusCode, response: response))
-            return
-        }
-        guard let jsons = response.result.value as? ArrayOfDictionaries else {
-            let message = "Cannot cast response to type [[String: Any]]"
-            #if DEBUG
+        self.logResponse(response, logResponse: logResponse)
+        switch response.result {
+        case .success(let value):
+            guard let jsons = value as? ArrayOfDictionaries else {
+                let message = "Cannot cast response to type [[String: Any]]"
+                #if DEBUG
                 fatalError(message)
-            #else
+                #else
                 NSLog(message)
                 return
-            #endif
+                #endif
+            }
+            let objects: [T] = [T](JSONArray: jsons) ?? []
+            success(objects)
+        case .failure(let error):
+            failure(ErrorHandlerType.handleError(error))
         }
-        let objects: [T] = [T](JSONArray: jsons) ?? []
-        success(objects)
     }
     
     private func handleResponse<T>(response: DataResponse<T>,
                                    logResponse: Bool,
-                                   success: @escaping (_ result: T?) -> Void,
+                                   success: @escaping (_ result: T) -> Void,
                                    failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {
-        let validation = self.responseValidation(response: response, logResponse: logResponse)
-        guard validation.isValid == true else {
-            failure(ErrorHandlerType.handleError(statusCode: validation.statusCode, response: response))
-            return
-        }
-        success(response.result.value)
-    }
-    
-    private func handleResponse<T: BaseMappable>(response: DataResponse<Any>,
-                                                 logResponse: Bool,
-                                                 success: @escaping (_ result: T?) -> Void,
-                                                 failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {
-        let validation = self.responseValidation(response: response, logResponse: logResponse)
-        guard validation.isValid == true else {
-            failure(ErrorHandlerType.handleError(statusCode: validation.statusCode, response: response))
-            return
-        }
-        guard let json = response.result.value as? DictionaryAlias else {
-            #if DEBUG
-                fatalError("Cannot cast response to type [String: Any]")
-            #else
+        switch response.result {
+        case .success(let value):
+            success(value)
+        case .failure(let error):
+            guard let statusCode = response.response?.statusCode else {
+                failure(ErrorHandlerType.handleError(error))
                 return
-            #endif
+            }
+            failure(ErrorHandlerType.handleError(statusCode: statusCode, response: response))
         }
-        
-        let TMappable = T.self as? Mappable.Type
-        let model = TMappable?.init(JSON: json, context: nil) as? T
-        success(model)
-    }
-    
-    private func handleResponse<T: BaseMappable>(response: DataResponse<Any>,
-                                                 logResponse: Bool,
-                                                 success: @escaping (_ result: [T]) -> Void,
-                                                 failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {
-        let validation = self.responseValidation(response: response, logResponse: logResponse)
-        guard validation.isValid == true else {
-            failure(ErrorHandlerType.handleError(statusCode: validation.statusCode, response: response))
-            return
-        }
-        guard let jsons = response.result.value as? ArrayOfDictionaries else {
-            #if DEBUG
-                fatalError("Cannot cast response to type [[String: Any]]")
-            #else
-                return
-            #endif
-        }
-        
-        let TMappable = T.self as? Mappable.Type
-        let objects: [T] = jsons.flatMap({ TMappable?.init(JSON: $0, context: nil) as? T })
-        success(objects)
     }
 }

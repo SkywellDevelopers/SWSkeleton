@@ -9,11 +9,7 @@
 import Foundation
 import RxSwift
 
-protocol SWRepositoryProtocol: BaseRepositoryProtocol {}
-extension SWRepositoryProtocol {
-    typealias RemoteStorageType = RemoteStorageProtocol
-    typealias LocalStorageType = LocalStorageProtocol
-}
+protocol SWRepositoryProtocol: BaseRepositoryProtocol where RemoteStorageType == RemoteStorageProtocol, LocalStorageType == LocalStorageProtocol {}
 
 struct MainRepository: SWRepositoryProtocol {
     static var remoteStorage: RemoteStorageProtocol = RemoteStorage()

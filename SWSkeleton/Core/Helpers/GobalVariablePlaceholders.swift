@@ -18,5 +18,4 @@ public let doubleDummy = -1.0
 public typealias ArrayOfDictionaries = Array<[String: Any]>
 public typealias DictionaryAlias = [String: Any]
 public typealias DictionaryAliasHashable = [AnyHashable: Any]
-//public typealias ResponseHandler = (ErrorParserProtocol) -> Void
 

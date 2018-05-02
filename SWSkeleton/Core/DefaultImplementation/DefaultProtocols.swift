@@ -50,15 +50,9 @@ public enum SWRequestStatus: RequestStatusProtocol, Equatable {
     }
 }
 
-protocol SWViewModelProtocol: BaseViewModelProtocol {}
-extension SWViewModelProtocol {
-    typealias RequestStatusType = SWRequestStatus
-}
+protocol SWViewModelProtocol: BaseViewModelProtocol where RequestStatusType == SWRequestStatus {}
 
-protocol SWRxViewModelProtocol: RxBaseViewModelProtocol {}
-extension SWRxViewModelProtocol {
-    typealias RequestStatusType = SWRequestStatus
-}
+protocol SWRxViewModelProtocol: RxBaseViewModelProtocol where RequestStatusType == SWRequestStatus {}
 
 // Status codes codes
 public enum SWStatusCode: Int, StatusCodeProtocol {
