@@ -41,8 +41,8 @@ class testView : UIView, RegisterViewProtocol {
 }
 */
 
-public protocol RegisterViewProtocol {
-    var view: UIView! { get }
+public protocol RegisterViewProtocol: class {
+    var view: UIView! { get set }
     func configure() // required. Use this for main view configuration.
     func configureColors() // optional. Use this function for perform colors
     func configureStaticTexts() // optional . Use this function for perform and reload texts
@@ -74,11 +74,18 @@ public extension RegisterViewProtocol where Self: UIView {
         view.frame = bounds
         view.backgroundColor = .clear
         
-        view.autoresizingMask = [UIViewAutoresizing.flexibleWidth, UIViewAutoresizing.flexibleHeight]
-        addSubview(view)
+        view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.addSubview(view)
         return view
     }
+    
+    public static func <- (_ container: Self, _ newView: @escaping () -> UIView) {
+//        ({ view.view = newView() })()
+        call { container.view = newView() }
+    }
 }
+
+infix operator <- : AssignmentPrecedence
 
 
 /// XibProtocol. 

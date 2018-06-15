@@ -11,13 +11,94 @@ import RealmSwift
 import RxCocoa
 import RxSwift
 
+public struct WeakBox<Value: AnyObject> {
+    
+    // MARK: -
+    // MARK: Properties
+    
+    public var isEmpty: Bool {
+        return self.value == nil
+    }
+    
+    public private(set) weak var value: Value?
+    
+    // MARK: -
+    // MARK: Init and Deinit
+    
+    public init(_ value: Value?) {
+        self.value = value
+    }
+}
+
+extension WeakBox: Equatable {
+    public static func == (lhs: WeakBox, rhs: WeakBox) -> Bool {
+        return lhs.value.flatMap { lhs in
+            rhs.value.map { lhs === $0 }
+            } ?? false
+    }
+}
+
+public func sideEffect<Value>(_ action: @escaping (Value) -> ()) -> (Value) -> Value {
+    return {
+        action($0)
+        
+        return $0
+    }
+}
+
+public func call<Value>(_ action: () -> Value) -> Value {
+    return action()
+}
+
+
+
 public protocol RealmClientProtocol {
     associatedtype ErrorType: ErrorProtocol
     
     init()
 }
 
+fileprivate struct Key {
+    static let realm = "com.realm.thread"
+}
+
 public extension RealmClientProtocol {
+    
+    public func write(_ action: @escaping (Realm?) -> Void) {
+        if self.realm?.isInWriteTransaction == true {
+            action(self.realm)
+        } else {
+            try? self.realm?.write { action(self.realm) }
+        }
+    }
+    
+    public func write(_ action: @escaping () -> Void) {
+        if self.realm?.isInWriteTransaction == true {
+            action()
+        } else {
+            try? self.realm?.write { action() }
+        }
+    }
+    
+    public var realm: Realm? {
+        let key = Key.realm
+        let thread = Thread.current
+        
+        return thread.threadDictionary[key]
+            .flatMap { $0 as? WeakBox<Realm> }
+            .flatMap { $0.value }
+            ?? call {
+                (try? Realm()).flatMap(
+                    sideEffect { thread.threadDictionary[key] = WeakBox($0) }
+                )
+        }
+    }
+    
+    func update<T: Object>(_ object: T, updateAction: @escaping (T) -> Void) {
+        self.write {
+            updateAction(object)
+        }
+    }
     
     func updateValue<T: Object>(_ type: T.Type,
                                 predicate: NSPredicate,
@@ -61,6 +142,9 @@ public extension RealmClientProtocol {
     /// - Parameter model: Array  of model
     /// - Parameter update: update flag
     public func saveModelArrayToStorage<M: Object>(_ array: Array<M>, withUpdate update: Bool = true) {
+        self.write { (realm) in
+            realm?.add(array, update: update)
+        }
         do {
             let realm = try Realm()
             try realm.write {
