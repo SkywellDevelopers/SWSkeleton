@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E7353D120D7C2F8006AD64E /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7353D020D7C2F8006AD64E /* Functions.swift */; };
 		AB0340EB20161D7B00EDE101 /* OptionalExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0340EA20161D7B00EDE101 /* OptionalExtensions.swift */; };
 		AB0340ED20161DC000EDE101 /* UINavigationControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0340EC20161DC000EDE101 /* UINavigationControllerExtensions.swift */; };
 		AB0340EF20161DED00EDE101 /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0340EE20161DED00EDE101 /* ArrayExtensions.swift */; };
@@ -53,6 +54,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3E7353D020D7C2F8006AD64E /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		783940CE55913BB344ED91F7 /* Pods_SWSkeleton.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SWSkeleton.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8437B6F28CEFA8AAC1E6C991 /* Pods-SWSkeleton.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SWSkeleton.release.xcconfig"; path = "Pods/Target Support Files/Pods-SWSkeleton/Pods-SWSkeleton.release.xcconfig"; sourceTree = "<group>"; };
 		AB0340EA20161D7B00EDE101 /* OptionalExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalExtensions.swift; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 				AB0340F220161E5500EDE101 /* UIViewExtensions.swift */,
 				AB0340F420161E8B00EDE101 /* UIApplicationExtensions.swift */,
 				AB0340F82016216A00EDE101 /* StringExtensions.swift */,
+				3E7353D020D7C2F8006AD64E /* Functions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -405,6 +408,7 @@
 				AB2FCA612015F69300EBA687 /* RealmClientProtocol.swift in Sources */,
 				AB2FCA6E2015F69300EBA687 /* Logger.swift in Sources */,
 				AB2FCA6D2015F69300EBA687 /* GobalVariablePlaceholders.swift in Sources */,
+				3E7353D120D7C2F8006AD64E /* Functions.swift in Sources */,
 				AB2FCA692015F69300EBA687 /* RepositoryProtocol.swift in Sources */,
 				AB2FCA6B2015F69300EBA687 /* DefaultLoaderView.swift in Sources */,
 				AB2FCA6C2015F69300EBA687 /* DefaultProtocols.swift in Sources */,

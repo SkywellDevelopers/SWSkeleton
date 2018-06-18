@@ -24,12 +24,15 @@ class View: BaseView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        ({ self.view = self.xibSetupView() })()
+        
+        self <- xibSetupView
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        ({ self.view = self.xibSetupView() })()
+        
+        self <- xibSetupView
     }
 }
 

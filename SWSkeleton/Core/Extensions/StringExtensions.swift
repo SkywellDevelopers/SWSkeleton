@@ -13,7 +13,7 @@ public extension String {
         return trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
-    public var bool: Bool? {
+    public var boolValue: Bool? {
         let selfLowercased = self.trimmed.lowercased()
         if selfLowercased == "true" || selfLowercased == "1" {
             return true
@@ -23,7 +23,7 @@ public extension String {
         return nil
     }
     
-    public var int: Int? {
+    public var intValue: Int? {
         return Int(self)
     }
     
@@ -45,5 +45,9 @@ public extension String {
         formatter.locale = locale
         formatter.allowsFloats = true
         return formatter.number(from: self) as? Double
+    }
+    
+    public var doubleValue: Double? {
+        return self.double()
     }
 }

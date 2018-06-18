@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 s.name             = 'SWSkeleton'
-s.version          = '0.2.6'
+s.version          = '0.2.7'
 s.summary          = 'MVVM application skeleton'
 
 # This description is used to generate tags and improve search results.
@@ -28,8 +28,8 @@ s.xcconfig = { 'SWIFT_VERSION' => '4.0' }
 
 s.dependency 'Alamofire', '4.7.2'
 s.dependency 'AlamofireImage', '3.3.1'
-s.dependency 'RxSwift', '4.1.2'
-s.dependency 'RxCocoa', '4.1.2'
-s.dependency 'RealmSwift', '3.5.0'
+s.dependency 'RxSwift', '4.2.0'
+s.dependency 'RxCocoa', '4.2.0'
+s.dependency 'RealmSwift', '3.7.2'
 
 end

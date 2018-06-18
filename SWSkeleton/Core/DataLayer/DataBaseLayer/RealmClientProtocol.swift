@@ -5,7 +5,6 @@
 //  Created by Korchak Mykhail on 10.01.18.
 //  Copyright © 2018 Korchak Mykhail. All rights reserved.
 //
-
 import Foundation
 import RealmSwift
 import RxCocoa
@@ -18,6 +17,32 @@ public protocol RealmClientProtocol {
 }
 
 public extension RealmClientProtocol {
+    
+    func updateValue<T: Object>(_ type: T.Type,
+                                predicate: NSPredicate,
+                                updating: @escaping (T) -> Void) {
+        do {
+            let realm = try Realm()
+            if let object = realm.objects(type).filter(predicate).first {
+                try realm.write {
+                    updating(object)
+                }
+            }
+        } catch {
+            Log.error.log("RealmProtocol: error \(error.localizedDescription) with saving type \(type)")
+        }
+    }
+    
+    func updateValue<T: Object>(_ object: T, updating: @escaping (T) -> Void) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                updating(object)
+            }
+        } catch {
+            Log.error.log("RealmProtocol: error \(error.localizedDescription) with saving type \(T.self)")
+        }
+    }
     
     func updateValue<T: Object>(_ type: T.Type,
                                 predicate: NSPredicate,
@@ -48,15 +73,15 @@ public extension RealmClientProtocol {
         }
     }
     
-    ///  Save Realm model with update
+    ///  Save Realm model with update
     ///
     ///  Parameter model: model
     /// - Parameter update: update flag
     public func saveModelToStorage<M: Object>(_ model: M, withUpdate update: Bool = true) {
         self.saveObject(model, withUpdate: update)
     }
-
-    ///  Save Realm Array model with update
+    
+    ///  Save Realm Array model with update
     ///
     /// - Parameter model: Array  of model
     /// - Parameter update: update flag
@@ -71,7 +96,7 @@ public extension RealmClientProtocol {
         }
     }
     
-    ///  Save or update object
+    ///  Save or update object
     ///
     /// - Parameter model: model
     /// - Parameter update:  update flag. default is false
@@ -86,7 +111,7 @@ public extension RealmClientProtocol {
         }
     }
     
-
+    
     /// Remove all data from table
     ///
     /// - Parameter type: Object.Type
@@ -115,7 +140,7 @@ public extension RealmClientProtocol {
             Log.warning.log("RealmProtocol: error \(error.localizedDescription). Cannot delete object \(object)")
         }
     }
-
+    
     /// Fetch all items that conform NSPredicate
     ///
     /// - Parameters:
@@ -134,7 +159,7 @@ public extension RealmClientProtocol {
             Log.error.log("RealmProtocol: error \(error.localizedDescription), type \(type)")
         }
     }
-
+    
     /// Fetch all items
     ///
     /// - Parameters:
