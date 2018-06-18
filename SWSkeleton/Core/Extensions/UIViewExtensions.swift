@@ -30,4 +30,36 @@ public extension UIView {
         }
         return nil
     }
+    
+    public var safeTopAnchor: NSLayoutYAxisAnchor {
+        if #available(iOS 11.0, *) {
+            return self.safeAreaLayoutGuide.topAnchor
+        } else {
+            return self.topAnchor
+        }
+    }
+    
+    public var safeLeftAnchor: NSLayoutXAxisAnchor {
+        if #available(iOS 11.0, *) {
+            return self.safeAreaLayoutGuide.leftAnchor
+        } else {
+            return self.leftAnchor
+        }
+    }
+    
+    public var safeRightAnchor: NSLayoutXAxisAnchor {
+        if #available(iOS 11.0, *) {
+            return self.safeAreaLayoutGuide.rightAnchor
+        } else {
+            return self.rightAnchor
+        }
+    }
+    
+    public var safeBottomAnchor: NSLayoutYAxisAnchor {
+        if #available(iOS 11.0, *) {
+            return self.safeAreaLayoutGuide.bottomAnchor
+        } else {
+            return self.bottomAnchor
+        }
+    }
 }

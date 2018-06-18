@@ -7,8 +7,8 @@ target 'SWSkeleton' do
   
   pod 'Alamofire', '4.7.2'
   pod 'AlamofireImage', '3.3.1'
-  pod 'RealmSwift', '3.5.0'
-  pod 'RxSwift', '4.1.2'
-  pod 'RxCocoa', '4.1.2'
+  pod 'RealmSwift', '3.7.2'
+  pod 'RxSwift', '4.2.0'
+  pod 'RxCocoa', '4.2.0'
   
 end
