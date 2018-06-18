@@ -38,19 +38,6 @@ extension WeakBox: Equatable {
     }
 }
 
-public func sideEffect<Value>(_ action: @escaping (Value) -> ()) -> (Value) -> Value {
-    return {
-        action($0)
-        
-        return $0
-    }
-}
-
-public func call<Value>(_ action: () -> Value) -> Value {
-    return action()
-}
-
-
 
 public protocol RealmClientProtocol {
     associatedtype ErrorType: ErrorProtocol
@@ -80,10 +67,36 @@ public extension RealmClientProtocol {
         }
     }
     
+//    public func realm() throws -> Realm {
+//
+//            let key = Key.realm
+//            let thread = Thread.current
+//
+//        return call({ () -> Value in
+//            <#code#>
+//        })
+//
+//        return thread.threadDictionary[key]
+//            .flatMap { ($0 as? WeakBox<Realm>)?.value } ?? sideEffect { (realm: Realm) in
+//                thread.threadDictionary[key] = WeakBox(realm)
+//            }(try Realm())
+//            return thread.threadDictionary[key]
+//                .flatMap { $0 as? WeakBox<Realm> }
+//                .flatMap { $0.value }
+//                ?? call {
+//
+//                    (try Realm()).flatMap(
+//                        sideEffect { thread.threadDictionary[key] = WeakBox($0) }
+//                    )
+//            }
+//
+//
+//    }
+    
     public var realm: Realm? {
         let key = Key.realm
         let thread = Thread.current
-        
+
         return thread.threadDictionary[key]
             .flatMap { $0 as? WeakBox<Realm> }
             .flatMap { $0.value }
@@ -160,6 +173,7 @@ public extension RealmClientProtocol {
     /// - Parameter model: model
     /// - Parameter update:  update flag. default is false
     public func saveObject<M: Object>(_ model: M, withUpdate update: Bool = false) {
+        
         do {
             let r = try Realm()
             try r.write {
@@ -175,6 +189,12 @@ public extension RealmClientProtocol {
     ///
     /// - Parameter type: Object.Type
     public func removeAllDataFrom<R: Object>(_ type: R.Type) {
+        let objects = self.realm?.objects(type)
+        objects.run { (objects) in
+            self.write({ (realm) in
+                realm?.delete(objects)
+            })
+        }
         do {
             let items  = try Realm().objects(type.self)
             let realm = try Realm()
@@ -190,6 +210,9 @@ public extension RealmClientProtocol {
     ///
     /// - Parameter object: Object to be removed
     public func removeObject<R: Object>(_ object: R) {
+        self.write { (realm) in
+            realm?.delete(object)
+        }
         do {
             let realm = try Realm()
             try realm.write {
@@ -246,6 +269,7 @@ public extension RealmClientProtocol {
     }
     
     public func fetchItems<M: Object>(predicate: NSPredicate) -> Observable<[M]> {
+
         Log.info.log("RealmProtocol: Fetching items with predicate \(predicate)")
         do {
             return try Realm().objects(M.self).filter(predicate).asObservable()

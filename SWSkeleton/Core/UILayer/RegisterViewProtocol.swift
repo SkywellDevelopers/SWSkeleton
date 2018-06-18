@@ -80,12 +80,16 @@ public extension RegisterViewProtocol where Self: UIView {
     }
     
     public static func <- (_ container: Self, _ newView: @escaping () -> UIView) {
-//        ({ view.view = newView() })()
         call { container.view = newView() }
+    }
+    
+    public static postfix func << (_ registerView: Self) {
+        call { registerView.view = registerView.xibSetupView() }
     }
 }
 
 infix operator <- : AssignmentPrecedence
+postfix operator <<
 
 
 /// XibProtocol. 

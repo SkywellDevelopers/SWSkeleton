@@ -71,3 +71,4 @@ derivedData/*
 Pods/
 
 IDEWorkspaceChecks.plist
+Podfile.lock
