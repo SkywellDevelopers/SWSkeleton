@@ -26,10 +26,10 @@ s.ios.xcconfig     = { "OTHER_SWIFT_FLAGS[config=Debug]" => "-D DEBUG" }
 s.pod_target_xcconfig = { 'SWIFT_VERSION' => '4.0' }
 s.xcconfig = { 'SWIFT_VERSION' => '4.0' }
 
-s.dependency 'Alamofire', '4.7.2'
-s.dependency 'AlamofireImage', '3.3.1'
-s.dependency 'RxSwift', '4.2.0'
-s.dependency 'RxCocoa', '4.2.0'
-s.dependency 'RealmSwift', '3.7.2'
+s.dependency 'Alamofire'
+s.dependency 'AlamofireImage'
+s.dependency 'RxSwift'
+s.dependency 'RxCocoa'
+s.dependency 'RealmSwift'
 
 end

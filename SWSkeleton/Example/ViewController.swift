@@ -14,7 +14,7 @@ class RxViewController: BaseViewController {
     
     @IBOutlet weak private var viewContent: View!
     
-    weak var viewModel: RxViewModel?
+    var viewModel: RxViewModel?
     private let disposeBag = DisposeBag()
 
     override func viewDidLoad() {
@@ -51,7 +51,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak private var viewContent: View!
     
-    weak var viewModel: ViewModel? {
+    var viewModel: ViewModel? {
         didSet {
             guard let vm = self.viewModel else { return }
             vm.viewModelChanged = {

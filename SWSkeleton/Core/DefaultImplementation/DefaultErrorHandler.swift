@@ -45,7 +45,7 @@ public struct SWError: ErrorProtocol {
         return DataManager.shared.serverConnectionErrorMessage
     }
     
-    init(statusCode: Int, message: String? = nil) {
+    init(statusCode: Int, message: String?) {
         self.init(statusCode: statusCode)
         self.message = message ?? SWError.defaultErrorMessage
     }

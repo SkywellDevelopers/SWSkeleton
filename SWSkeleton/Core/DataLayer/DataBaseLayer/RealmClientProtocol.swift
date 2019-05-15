@@ -77,7 +77,7 @@ public extension RealmClientProtocol {
     ///
     ///  Parameter model: model
     /// - Parameter update: update flag
-    public func saveModelToStorage<M: Object>(_ model: M, withUpdate update: Bool = true) {
+    func saveModelToStorage<M: Object>(_ model: M, withUpdate update: Bool = true) {
         self.saveObject(model, withUpdate: update)
     }
     
@@ -85,7 +85,7 @@ public extension RealmClientProtocol {
     ///
     /// - Parameter model: Array  of model
     /// - Parameter update: update flag
-    public func saveModelArrayToStorage<M: Object>(_ array: Array<M>, withUpdate update: Bool = true) {
+    func saveModelArrayToStorage<M: Object>(_ array: Array<M>, withUpdate update: Bool = true) {
         do {
             let realm = try Realm()
             try realm.write {
@@ -100,7 +100,7 @@ public extension RealmClientProtocol {
     ///
     /// - Parameter model: model
     /// - Parameter update:  update flag. default is false
-    public func saveObject<M: Object>(_ model: M, withUpdate update: Bool = false) {
+    func saveObject<M: Object>(_ model: M, withUpdate update: Bool = false) {
         do {
             let r = try Realm()
             try r.write {
@@ -115,7 +115,7 @@ public extension RealmClientProtocol {
     /// Remove all data from table
     ///
     /// - Parameter type: Object.Type
-    public func removeAllDataFrom<R: Object>(_ type: R.Type) {
+    func removeAllDataFrom<R: Object>(_ type: R.Type) {
         do {
             let items  = try Realm().objects(type.self)
             let realm = try Realm()
@@ -130,7 +130,7 @@ public extension RealmClientProtocol {
     /// Remove sibgle object
     ///
     /// - Parameter object: Object to be removed
-    public func removeObject<R: Object>(_ object: R) {
+    func removeObject<R: Object>(_ object: R) {
         do {
             let realm = try Realm()
             try realm.write {
@@ -147,7 +147,7 @@ public extension RealmClientProtocol {
     ///   - type: Realm Object type
     ///   - predicate: NSPredicate
     ///   - success: array of model
-    public func fetchItems<M: Object>(_ type: M.Type,
+    func fetchItems<M: Object>(_ type: M.Type,
                                       predicate: NSPredicate,
                                       success: @escaping ([M]) -> Void,
                                       failure: @escaping (ErrorType) -> Void) {
@@ -165,7 +165,7 @@ public extension RealmClientProtocol {
     /// - Parameters:
     ///   - type: Realm Object type
     ///   - success: array of model
-    public func fetchAllItems<M: Object>(_ type: M.Type,
+    func fetchAllItems<M: Object>(_ type: M.Type,
                                          success: @escaping ([M]) -> Void,
                                          failure: @escaping (ErrorType) -> Void) {
         do {
@@ -178,7 +178,7 @@ public extension RealmClientProtocol {
     
     // MARK: - Rx
     
-    public func fetchAllItems<M: Object>() -> Observable<[M]> {
+    func fetchAllItems<M: Object>() -> Observable<[M]> {
         do {
             return try Realm().objects(M.self).asObservable()
         } catch {
@@ -186,7 +186,7 @@ public extension RealmClientProtocol {
         }
     }
     
-    public func fetchItems<M: Object>(predicate: NSPredicate) -> Observable<[M]> {
+    func fetchItems<M: Object>(predicate: NSPredicate) -> Observable<[M]> {
         Log.info.log("RealmProtocol: Fetching items with predicate \(predicate)")
         do {
             return try Realm().objects(M.self).filter(predicate).asObservable()
@@ -195,7 +195,7 @@ public extension RealmClientProtocol {
         }
     }
     
-    public func fetchAllItemsWithChanges<M: Object>() -> Observable<RealmCollectionChanges<[M]>> {
+    func fetchAllItemsWithChanges<M: Object>() -> Observable<RealmCollectionChanges<[M]>> {
         do {
             return try Realm().objects(M.self).asChangesObservable()
         } catch {
@@ -203,7 +203,7 @@ public extension RealmClientProtocol {
         }
     }
     
-    public func fetchItemsWithChanges<M: Object>(predicate: NSPredicate) -> Observable<RealmCollectionChanges<[M]>> {
+    func fetchItemsWithChanges<M: Object>(predicate: NSPredicate) -> Observable<RealmCollectionChanges<[M]>> {
         do {
             return try Realm().objects(M.self).filter(predicate).asChangesObservable()
         } catch {
@@ -211,7 +211,43 @@ public extension RealmClientProtocol {
         }
     }
     
-    public func addObjectToArray<T: Object>(array: List<T>, object: T) {
+    func fetchItem<T: Object, KeyType>(forPrimaryKey key: KeyType) -> Observable<T?> {
+        do {
+            guard let object = try Realm().object(ofType: T.self, forPrimaryKey: key) else { return .just(nil) }
+            return Observable.create { (observer) -> Disposable in
+                let notification = object.observe({ (change) in
+                    switch change {
+                    case .change(_):
+                        observer.on(.next((object)))
+                    case .deleted:
+                        observer.on(.next(nil))
+                    case.error(let error):
+                        observer.on(.error(error))
+                    }
+                })
+                
+                return Disposables.create {
+                    notification.invalidate()
+                }
+                }.startWith(object)
+        } catch {
+            return Observable.error(ErrorType.init(statusCode: DataManager.shared.dataBaseErrorStatusCode))
+        }
+    }
+    
+    func fetchItem<T: Object, KeyType>(forPrimaryKey key: KeyType,
+                                       success: @escaping (T?) -> Void,
+                                       failure: @escaping (ErrorType) -> Void) {
+        do {
+            let realm = try Realm()
+            let object = realm.object(ofType: T.self, forPrimaryKey: key)
+            success(object)
+        } catch {
+            failure(ErrorType.init(statusCode: DataManager.shared.dataBaseErrorStatusCode))
+        }
+    }
+    
+    func addObjectToArray<T: Object>(array: List<T>, object: T) {
         do {
             let realm = try Realm()
             try realm.write {
@@ -222,7 +258,7 @@ public extension RealmClientProtocol {
         }
     }
     
-    public func addObjectsToArray<T: Object>(array: List<T>, objects: [T]) {
+    func addObjectsToArray<T: Object>(array: List<T>, objects: [T]) {
         do {
             let realm = try Realm()
             try realm.write {
@@ -233,7 +269,7 @@ public extension RealmClientProtocol {
         }
     }
     
-    public func removeObjects<T: Object>(_ objects: [T]) {
+    func removeObjects<T: Object>(_ objects: [T]) {
         do {
             let realm = try Realm()
             try realm.write {
@@ -244,7 +280,7 @@ public extension RealmClientProtocol {
         }
     }
     
-    public func removeObjects<T: Object>(_ objects: List<T>) {
+    func removeObjects<T: Object>(_ objects: List<T>) {
         do {
             let realm = try Realm()
             try realm.write {
@@ -255,7 +291,7 @@ public extension RealmClientProtocol {
         }
     }
     
-    public func updateValue<T: Object>(_ type: T.Type, value: Any?, forKey key: String) {
+    func updateValue<T: Object>(_ type: T.Type, value: Any?, forKey key: String) {
         do {
             let realm = try Realm()
             let object = realm.objects(type).first
@@ -266,4 +302,51 @@ public extension RealmClientProtocol {
             Log.warning.log("RealmProtocol: error \(error.localizedDescription). Cannot update value of object \(T.self)")
         }
     }
+    
+    func update<T: Object>(_ type: T.Type,
+                           predicate: NSPredicate,
+                           updating: @escaping (T?) -> Void) {
+        do {
+            let realm = try Realm()
+            if let object = realm.objects(type).filter(predicate).first {
+                try realm.write {
+                    updating(object)
+                }
+            } else {
+                updating(nil)
+            }
+        } catch {
+            Log.error.log("RealmProtocol: error \(error.localizedDescription) with saving type \(type)")
+        }
+    }
+    
+    func updateObject<T: Object>(_ type: T.Type,
+                                 preidicate: (T) throws -> Bool,
+                                 updating: @escaping (T) -> Void,
+                                 ifNone: @escaping () -> Void = {}) rethrows {
+        do {
+            let realm = try Realm()
+            let object = try realm.objects(type).first(where: preidicate)
+            if let object = object {
+                try realm.write { updating(object) }
+            } else {
+                ifNone()
+            }
+        } catch {
+            Log.error.log("Error with updating object \(type): \(error.localizedDescription)")
+        }
+    }
+    
+    func updateObjects<T: Object>(_ objects: [T], updating: @escaping ([T]) -> Void) {
+        do {
+            let realm = try Realm()
+            try realm.write {
+                updating(objects)
+                
+            }
+        } catch {
+            Log.error.log("Error with updating objects \(T.self): \(error.localizedDescription)")
+        }
+    }
+    
 }

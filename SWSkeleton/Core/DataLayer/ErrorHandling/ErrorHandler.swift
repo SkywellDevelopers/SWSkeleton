@@ -22,11 +22,11 @@ public protocol ErrorProtocol: Swift.Error {
 }
 
 public extension ErrorProtocol {
-    public init() {
+    init() {
         self = Self.default
     }
     
-    public init(statusCode: Int) {
+    init(statusCode: Int) {
         guard let code = StatusCodeType.init(statusCode) else {
             self.init()
             return
@@ -34,7 +34,7 @@ public extension ErrorProtocol {
         self.init(statusCode: code)
     }
     
-    public init(statusCode: StatusCodeType) {
+    init(statusCode: StatusCodeType) {
         self.init()
         self.statusCode = statusCode
     }

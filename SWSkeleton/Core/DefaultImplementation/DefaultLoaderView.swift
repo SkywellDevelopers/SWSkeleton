@@ -21,12 +21,12 @@ public class DefaultLoaderView: UIView {
     
     // MARK: - Public properties
     
-    public var style: UIActivityIndicatorViewStyle {
+    public var style: UIActivityIndicatorView.Style {
         get {
-            return self.activityIndicator.activityIndicatorViewStyle
+            return self.activityIndicator.style
         }
         set {
-            self.activityIndicator.activityIndicatorViewStyle = newValue
+            self.activityIndicator.style = newValue
         }
     }
     
@@ -67,7 +67,7 @@ public class DefaultLoaderView: UIView {
 
 extension DefaultLoaderView: RegisterViewProtocol {
     public func configure() {
-        self.activityIndicator.activityIndicatorViewStyle = .whiteLarge
+        self.activityIndicator.style = .whiteLarge
         self.activityIndicator.center = self.view.center
         self.view.addSubview(self.activityIndicator)
         self.isUserInteractionEnabled = false

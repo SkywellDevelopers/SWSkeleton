@@ -9,11 +9,11 @@
 import Foundation
 
 public extension String {
-    public var trimmed: String {
+    var trimmed: String {
         return trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
-    public var boolValue: Bool? {
+    var boolValue: Bool? {
         let selfLowercased = self.trimmed.lowercased()
         if selfLowercased == "true" || selfLowercased == "1" {
             return true
@@ -23,11 +23,11 @@ public extension String {
         return nil
     }
     
-    public var intValue: Int? {
+    var intValue: Int? {
         return Int(self)
     }
     
-    public static func loremIpsum(ofLength length: Int = 445) -> String {
+    static func loremIpsum(ofLength length: Int = 445) -> String {
         guard length > 0 else { return "" }
         
         // https://www.lipsum.com/
@@ -40,14 +40,14 @@ public extension String {
         return loremIpsum
     }
     
-    public func double(locale: Locale = .current) -> Double? {
+    func double(locale: Locale = .current) -> Double? {
         let formatter = NumberFormatter()
         formatter.locale = locale
         formatter.allowsFloats = true
         return formatter.number(from: self) as? Double
     }
     
-    public var doubleValue: Double? {
+    var doubleValue: Double? {
         return self.double()
     }
 }
