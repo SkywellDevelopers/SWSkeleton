@@ -10,11 +10,8 @@ import Foundation
 import RealmSwift
 
 extension Realm {
-    func safeWrite(_ writing: @escaping () -> Void) {
-        if self.isInWriteTransaction {
-            writing()
-        } else {
-            try? self.write(writing)
-        }
+    func safeWrite(_ writing: @escaping () -> Void) throws {
+        if self.isInWriteTransaction { writing() }
+        else { try self.write(writing) }
     }
 }

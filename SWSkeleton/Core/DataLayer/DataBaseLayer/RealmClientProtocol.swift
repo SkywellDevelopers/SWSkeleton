@@ -24,7 +24,7 @@ public extension RealmClientProtocol {
         do {
             let realm = try Realm()
             if let object = realm.objects(type).filter(predicate).first {
-                try realm.write {
+                try realm.safeWrite {
                     updating(object)
                 }
             }
@@ -36,7 +36,7 @@ public extension RealmClientProtocol {
     func updateValue<T: Object>(_ object: T, updating: @escaping (T) -> Void) {
         do {
             let realm = try Realm()
-            try realm.write {
+            try realm.safeWrite {
                 updating(object)
             }
         } catch {
@@ -51,7 +51,7 @@ public extension RealmClientProtocol {
         do {
             let realm = try Realm()
             if let object = realm.objects(type).filter(predicate).first {
-                try realm.write {
+                try realm.safeWrite {
                     object.setValue(value, forKey: key)
                 }
             }
@@ -60,14 +60,12 @@ public extension RealmClientProtocol {
         }
     }
     
-    func updateValue<T: Object>(of object: inout T,
+    func updateValue<T: Object>(of object: T,
                                 value: Any?,
                                 forKey key: String) {
         do {
             let realm = try Realm()
-            try realm.write {
-                object.setValue(value, forKey: key)
-            }
+            try realm.safeWrite { object.setValue(value, forKey: key) }
         } catch {
             Log.error.log("RealmProtocol: error \(error.localizedDescription) with saving type \(T.self)")
         }
@@ -89,7 +87,7 @@ public extension RealmClientProtocol {
         do {
             let realm = try Realm()
             try realm.write {
-                realm.add(array, update: update)
+                realm.add(array, update: update ? .all : .error)
             }
         } catch let error {
             Log.error.log("RealmProtocol: error \(error.localizedDescription) with saving type \(M.self)")
@@ -103,8 +101,8 @@ public extension RealmClientProtocol {
     func saveObject<M: Object>(_ model: M, withUpdate update: Bool = false) {
         do {
             let r = try Realm()
-            try r.write {
-                r.add(model, update: update)
+            try r.safeWrite {
+                r.add(model, update: update ? .all : .error)
             }
         } catch {
             Log.error.log("RealmProtocol: error \(error.localizedDescription) with saving type \(M.self)")
@@ -119,7 +117,7 @@ public extension RealmClientProtocol {
         do {
             let items  = try Realm().objects(type.self)
             let realm = try Realm()
-            try realm.write {
+            try realm.safeWrite {
                 realm.delete(items)
             }
         } catch {
@@ -133,7 +131,7 @@ public extension RealmClientProtocol {
     func removeObject<R: Object>(_ object: R) {
         do {
             let realm = try Realm()
-            try realm.write {
+            try realm.safeWrite {
                 realm.delete(object)
             }
         } catch {
@@ -148,9 +146,9 @@ public extension RealmClientProtocol {
     ///   - predicate: NSPredicate
     ///   - success: array of model
     func fetchItems<M: Object>(_ type: M.Type,
-                                      predicate: NSPredicate,
-                                      success: @escaping ([M]) -> Void,
-                                      failure: @escaping (ErrorType) -> Void) {
+                               predicate: NSPredicate,
+                               success: @escaping ([M]) -> Void,
+                               failure: @escaping (ErrorType) -> Void) {
         Log.info.log("RealmProtocol: Fetching items with predicate \(predicate)")
         do {
             success(try Realm().objects(M.self).filter(predicate).map({ $0 }))
@@ -166,8 +164,8 @@ public extension RealmClientProtocol {
     ///   - type: Realm Object type
     ///   - success: array of model
     func fetchAllItems<M: Object>(_ type: M.Type,
-                                         success: @escaping ([M]) -> Void,
-                                         failure: @escaping (ErrorType) -> Void) {
+                                  success: @escaping ([M]) -> Void,
+                                  failure: @escaping (ErrorType) -> Void) {
         do {
             success(try Realm().objects(M.self).map({ $0 }))
         } catch {
@@ -250,7 +248,7 @@ public extension RealmClientProtocol {
     func addObjectToArray<T: Object>(array: List<T>, object: T) {
         do {
             let realm = try Realm()
-            try realm.write {
+            try realm.safeWrite {
                 array.append(object)
             }
         } catch {
@@ -261,7 +259,7 @@ public extension RealmClientProtocol {
     func addObjectsToArray<T: Object>(array: List<T>, objects: [T]) {
         do {
             let realm = try Realm()
-            try realm.write {
+            try realm.safeWrite {
                 array.append(objectsIn: objects)
             }
         } catch {
@@ -272,7 +270,7 @@ public extension RealmClientProtocol {
     func removeObjects<T: Object>(_ objects: [T]) {
         do {
             let realm = try Realm()
-            try realm.write {
+            try realm.safeWrite {
                 realm.delete(objects)
             }
         } catch {
@@ -283,7 +281,7 @@ public extension RealmClientProtocol {
     func removeObjects<T: Object>(_ objects: List<T>) {
         do {
             let realm = try Realm()
-            try realm.write {
+            try realm.safeWrite {
                 realm.delete(objects)
             }
         } catch {
@@ -295,7 +293,7 @@ public extension RealmClientProtocol {
         do {
             let realm = try Realm()
             let object = realm.objects(type).first
-            try realm.write {
+            try realm.safeWrite {
                 object?.setValue(value, forKey: key)
             }
         } catch {
@@ -309,7 +307,7 @@ public extension RealmClientProtocol {
         do {
             let realm = try Realm()
             if let object = realm.objects(type).filter(predicate).first {
-                try realm.write {
+                try realm.safeWrite {
                     updating(object)
                 }
             } else {
@@ -328,24 +326,23 @@ public extension RealmClientProtocol {
             let realm = try Realm()
             let object = try realm.objects(type).first(where: preidicate)
             if let object = object {
-                try realm.write { updating(object) }
+                try realm.safeWrite { updating(object) }
             } else {
                 ifNone()
             }
         } catch {
-            Log.error.log("Error with updating object \(type): \(error.localizedDescription)")
+            Log.error.log("RealmProtocol: error with updating object \(type): \(error.localizedDescription)")
         }
     }
     
     func updateObjects<T: Object>(_ objects: [T], updating: @escaping ([T]) -> Void) {
         do {
             let realm = try Realm()
-            try realm.write {
+            try realm.safeWrite {
                 updating(objects)
-                
             }
         } catch {
-            Log.error.log("Error with updating objects \(T.self): \(error.localizedDescription)")
+            Log.error.log("RealmProtocol: error with updating objects \(T.self): \(error.localizedDescription)")
         }
     }
     
