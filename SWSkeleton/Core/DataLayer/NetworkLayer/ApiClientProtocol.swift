@@ -22,7 +22,7 @@ public extension ApiClientProtocol {
     
     // MARK: - RxDefaultResponse
     
-    public func rxExecute(_ request: ApiRequestProtocol) -> Observable<Void> {
+    func rxExecute(_ request: ApiRequestProtocol) -> Observable<Void> {
         guard DataManager.shared.isInternetAvailable else {
             let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
             return Observable.error(error)
@@ -52,7 +52,7 @@ public extension ApiClientProtocol {
     
     // MARK: - RxCodable
     
-    public func rxExecute<T: ModelProtocol>(_ request: ApiRequestProtocol) -> Observable<T?> {
+    func rxExecute<T: ModelProtocol>(_ request: ApiRequestProtocol) -> Observable<T?> {
         guard DataManager.shared.isInternetAvailable else {
             let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
             return Observable.error(error)
@@ -81,7 +81,7 @@ public extension ApiClientProtocol {
         }
     }
     
-    public func rxExecute<T: ModelProtocol>(_ request: ApiRequestProtocol) -> Observable<[T]?> {
+    func rxExecute<T: ModelProtocol>(_ request: ApiRequestProtocol) -> Observable<[T]?> {
         guard DataManager.shared.isInternetAvailable else {
             let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
             return Observable.error(error)
@@ -112,7 +112,7 @@ public extension ApiClientProtocol {
     
     // MARK: - Rx Simple types
     
-    public func rxExecute(_ request: ApiRequestProtocol) -> Observable<String?> {
+    func rxExecute(_ request: ApiRequestProtocol) -> Observable<String?> {
         guard DataManager.shared.isInternetAvailable else {
             let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
             return Observable.error(error)
@@ -141,7 +141,7 @@ public extension ApiClientProtocol {
         }
     }
     
-    public func rxExecute(_ request: ApiRequestProtocol) -> Observable<Image?> {
+    func rxExecute(_ request: ApiRequestProtocol) -> Observable<Image?> {
         guard DataManager.shared.isInternetAvailable else {
             let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
             return Observable.error(error)
@@ -170,7 +170,7 @@ public extension ApiClientProtocol {
         }
     }
     
-    public func rxExecute(_ request: ApiRequestProtocol) -> Observable<Data?> {
+    func rxExecute(_ request: ApiRequestProtocol) -> Observable<Data?> {
         guard DataManager.shared.isInternetAvailable else {
             let error = ErrorHandlerType.ErrorType(statusCode: DataManager.shared.internetConnectionErrorStatusCode)
             return Observable.error(error)
@@ -201,7 +201,7 @@ public extension ApiClientProtocol {
     
     // MARK: - DefaultResponse
     
-    public func execute(_ request: ApiRequestProtocol,
+    func execute(_ request: ApiRequestProtocol,
                         queue: DispatchQueue? = nil,
                         success: @escaping () -> Void,
                         failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {
@@ -219,7 +219,7 @@ public extension ApiClientProtocol {
     
     // MARK: - Codable
     
-    public func execute<T: ModelProtocol>(_ request: ApiRequestProtocol,
+    func execute<T: ModelProtocol>(_ request: ApiRequestProtocol,
                                           queue: DispatchQueue? = nil,
                                           success: @escaping (_ result: T?) -> Void,
                                           failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {
@@ -237,7 +237,7 @@ public extension ApiClientProtocol {
         }
     }
 
-    public func execute<T: ModelProtocol>(_ request: ApiRequestProtocol,
+    func execute<T: ModelProtocol>(_ request: ApiRequestProtocol,
                                           queue: DispatchQueue? = nil,
                                           success: @escaping (_ result: [T]?) -> Void,
                                           failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {
@@ -257,7 +257,7 @@ public extension ApiClientProtocol {
     
     // MARK: - Simple types
     
-    public func execute(_ request: ApiRequestProtocol,
+    func execute(_ request: ApiRequestProtocol,
                         queue: DispatchQueue? = nil,
                         encoding: String.Encoding? = nil,
                         success: @escaping (_ result: String?) -> Void,
@@ -276,7 +276,7 @@ public extension ApiClientProtocol {
         }
     }
     
-    public func execute(_ request: ApiRequestProtocol,
+    func execute(_ request: ApiRequestProtocol,
                         imageScale: CGFloat = DataRequest.imageScale,
                         inflateResponseImage: Bool = true,
                         queue: DispatchQueue? = nil,
@@ -298,7 +298,7 @@ public extension ApiClientProtocol {
         }
     }
     
-    public func execute(_ request: ApiRequestProtocol,
+    func execute(_ request: ApiRequestProtocol,
                         queue: DispatchQueue? = nil,
                         success: @escaping (_ result: Data?) -> Void,
                         failure: @escaping (_ error: ErrorHandlerType.ErrorType) -> Void) {

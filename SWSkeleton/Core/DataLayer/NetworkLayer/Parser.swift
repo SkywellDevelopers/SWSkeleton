@@ -18,12 +18,12 @@ public extension ModelProtocol {
         return false
     }
     
-    public func toJSON() -> [String : Any]? {
+    func toJSON() -> [String : Any]? {
         guard let data = try? JSONEncoder().encode(self) else { return nil }
         return (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)).flatMap { $0 as? [String: Any] }
     }
     
-    public func toJSONString(outputFormatting: JSONEncoder.OutputFormatting = []) -> String? {
+    func toJSONString(outputFormatting: JSONEncoder.OutputFormatting = []) -> String? {
         let encoder = JSONEncoder()
         encoder.outputFormatting = outputFormatting
         guard let data = try? encoder.encode(self) else { return nil }
@@ -31,7 +31,7 @@ public extension ModelProtocol {
         return jsonString
     }
     
-    public init?(JSON: [String: Any]?) {
+    init?(JSON: [String: Any]?) {
         do {
             guard let json = JSON else { return nil }
             let data = try JSONSerialization.data(withJSONObject: json, options: [])
@@ -51,7 +51,7 @@ public extension ModelProtocol {
         }
     }
     
-    public init?(JSONString: String?) {
+    init?(JSONString: String?) {
         do {
             guard let data = JSONString?.data(using: .utf8) else { return nil }
             let object = try JSONDecoder().decode(Self.self, from: data)
@@ -74,7 +74,7 @@ public extension ModelProtocol {
 public extension Array where Element: ModelProtocol {
     
     /// Initialize Array from a JSON String
-    public init?(JSONString: String?) {
+    init?(JSONString: String?) {
         do {
             guard let data = JSONString?.data(using: .utf8) else { return nil }
             let objects = try JSONDecoder().decode([Element].self, from: data)
@@ -94,7 +94,7 @@ public extension Array where Element: ModelProtocol {
     }
     
     // Need testing
-    public init?(JSONArray: [[String: Any]]) {
+    init?(JSONArray: [[String: Any]]) {
         do {
             let data = try JSONSerialization.data(withJSONObject: JSONArray, options: [])
             let objects: [Element] = try JSONDecoder().decode([Element].self, from: data)
@@ -114,13 +114,13 @@ public extension Array where Element: ModelProtocol {
     }
     
     /// Returns the JSON Array
-    public func toJSON() -> [[String: Any]]? {
+    func toJSON() -> [[String: Any]]? {
         guard let data = try? JSONEncoder().encode(self) else { return nil }
         return (try? JSONSerialization.jsonObject(with: data, options: .allowFragments)).flatMap { $0 as? [[String: Any]] }
     }
     
     /// Returns the JSON String for the object
-    public func toJSONString(outputFormatting: JSONEncoder.OutputFormatting = []) -> String? {
+    func toJSONString(outputFormatting: JSONEncoder.OutputFormatting = []) -> String? {
         let encoder = JSONEncoder()
         encoder.outputFormatting = outputFormatting
         guard let data = try? encoder.encode(self) else { return nil }

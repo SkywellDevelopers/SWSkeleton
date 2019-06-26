@@ -17,15 +17,15 @@ public protocol StatusCodeProtocol {
 }
 
 public extension StatusCodeProtocol where Self: RawRepresentable, Self.RawValue == Int {
-    public var isDataBaseErrorCode: Bool {
+    var isDataBaseErrorCode: Bool {
         return self.rawValue == DataManager.shared.dataBaseErrorStatusCode
     }
     
-    public var isRequestErrorCode: Bool {
+    var isRequestErrorCode: Bool {
         return !(self.isDataBaseErrorCode && DataManager.shared.validStatusCodeRanges.contains(self.rawValue))
     }
     
-    public init?(_ statusCode: Int) {
+    init?(_ statusCode: Int) {
         self.init(rawValue: statusCode)
     }
 }

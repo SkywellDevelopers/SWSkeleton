@@ -56,12 +56,12 @@ public extension RegisterViewProtocol {
 }
 
 public extension RegisterViewProtocol where Self: UIView {
-    public static var nibName: String {
+    static var nibName: String {
         return String(describing: self)
     }
 
     /// Returns view from nib or create new view programaticaly
-    public func xibSetupView() -> UIView {
+    func xibSetupView() -> UIView {
         let nib = UINib(nibName: Self.nibName, bundle: Bundle(for: Self.self))
         
         var view: UIView
@@ -79,7 +79,7 @@ public extension RegisterViewProtocol where Self: UIView {
         return view
     }
     
-    public static func <- (_ container: Self, _ newView: @escaping () -> UIView) {
+    static func <- (_ container: Self, _ newView: @escaping () -> UIView) {
         call { container.view = newView() }
     }
 }
@@ -91,7 +91,7 @@ infix operator <- : AssignmentPrecedence
 public protocol XibProtocol {}
 
 public extension XibProtocol where Self: UIViewController {
-    public static func instantiateFromXib() -> Self {
+    static func instantiateFromXib() -> Self {
         return Self.init(nibName: String(describing: Self.self), bundle: Bundle(for: Self.self))
     }
 }

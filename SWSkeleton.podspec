@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 s.name             = 'SWSkeleton'
-s.version          = '0.2.7'
+s.version          = '0.2.8'
 s.summary          = 'MVVM application skeleton'
 
 # This description is used to generate tags and improve search results.
@@ -23,13 +23,13 @@ s.ios.deployment_target = '10.0'
 s.source_files     = 'SWSkeleton/Core/**/*'
 s.framework        = 'UIKit'
 s.ios.xcconfig     = { "OTHER_SWIFT_FLAGS[config=Debug]" => "-D DEBUG" }
-s.pod_target_xcconfig = { 'SWIFT_VERSION' => '4.0' }
-s.xcconfig = { 'SWIFT_VERSION' => '4.0' }
+s.pod_target_xcconfig = { 'SWIFT_VERSION' => '5.0' }
+s.xcconfig = { 'SWIFT_VERSION' => '5.0' }
 
-s.dependency 'Alamofire', '4.7.2'
-s.dependency 'AlamofireImage', '3.3.1'
-s.dependency 'RxSwift', '4.2.0'
-s.dependency 'RxCocoa', '4.2.0'
-s.dependency 'RealmSwift', '3.7.2'
+s.dependency 'Alamofire', '4.8.2'
+s.dependency 'AlamofireImage', '3.5.2'
+s.dependency 'RxSwift', '4.5.0'
+s.dependency 'RxCocoa', '4.5.0'
+s.dependency 'RealmSwift', '3.16.2'
 
 end

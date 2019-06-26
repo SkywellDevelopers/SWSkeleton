@@ -9,11 +9,11 @@
 import Foundation
 
 public extension Dictionary {
-    public func has(key: Key) -> Bool {
+    func has(key: Key) -> Bool {
         return index(forKey: key) != nil
     }
     
-    public mutating func update(_ other: Dictionary) {
+    mutating func update(_ other: Dictionary) {
         for (key, value) in other {
             self.updateValue(value, forKey: key)
         }

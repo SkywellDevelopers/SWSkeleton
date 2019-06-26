@@ -9,7 +9,7 @@
 import UIKit
 
 public extension UIView {
-    public var parentViewController: UIViewController? {
+     var parentViewController: UIViewController? {
         var parentResponder: UIResponder? = self
         while parentResponder != nil {
             parentResponder = parentResponder!.next
@@ -20,7 +20,7 @@ public extension UIView {
         return nil
     }
     
-    public func parentController<T: UIViewController>() -> T? {
+    func parentController<T: UIViewController>() -> T? {
         var parentResponder: UIResponder? = self
         while parentResponder != nil {
             parentResponder = parentResponder!.next
@@ -31,7 +31,7 @@ public extension UIView {
         return nil
     }
     
-    public var safeTopAnchor: NSLayoutYAxisAnchor {
+    var safeTopAnchor: NSLayoutYAxisAnchor {
         if #available(iOS 11.0, *) {
             return self.safeAreaLayoutGuide.topAnchor
         } else {
@@ -39,7 +39,7 @@ public extension UIView {
         }
     }
     
-    public var safeLeftAnchor: NSLayoutXAxisAnchor {
+    var safeLeftAnchor: NSLayoutXAxisAnchor {
         if #available(iOS 11.0, *) {
             return self.safeAreaLayoutGuide.leftAnchor
         } else {
@@ -47,7 +47,7 @@ public extension UIView {
         }
     }
     
-    public var safeRightAnchor: NSLayoutXAxisAnchor {
+    var safeRightAnchor: NSLayoutXAxisAnchor {
         if #available(iOS 11.0, *) {
             return self.safeAreaLayoutGuide.rightAnchor
         } else {
@@ -55,7 +55,7 @@ public extension UIView {
         }
     }
     
-    public var safeBottomAnchor: NSLayoutYAxisAnchor {
+    var safeBottomAnchor: NSLayoutYAxisAnchor {
         if #available(iOS 11.0, *) {
             return self.safeAreaLayoutGuide.bottomAnchor
         } else {

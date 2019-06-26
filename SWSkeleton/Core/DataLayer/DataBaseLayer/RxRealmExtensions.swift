@@ -26,7 +26,7 @@ public enum RealmObjectChanges {
 extension Object: ObservableConvertibleType {}
 
 public extension Object {
-    public func incrementID() -> Int {
+    func incrementID() -> Int {
         do {
             let realm = try Realm()
             return (realm.objects(type(of: self)).max(ofProperty: "id") as Int? ?? 0) + 1
@@ -37,9 +37,9 @@ public extension Object {
 }
 
 public extension ObservableConvertibleType where Self: Object {
-    public typealias E = Self?
+    typealias E = Self?
     
-    public func asObservable() -> Observable<Self?> {
+    func asObservable() -> Observable<Self?> {
         return Observable.create { (observer) -> Disposable in
             let notification = self.observe({ (change) in
                 switch change {
@@ -61,7 +61,7 @@ public extension ObservableConvertibleType where Self: Object {
         }
     }
     
-    public func asPropertyChangeObservable() -> Observable<RealmObjectChanges> {
+    func asPropertyChangeObservable() -> Observable<RealmObjectChanges> {
         return Observable.create { observer in
             let notification = self.observe { (change) in
                 switch change {
@@ -83,7 +83,7 @@ public extension ObservableConvertibleType where Self: Object {
 
 public extension RealmCollection {
     
-    public func asChangesObservable() -> Observable<RealmCollectionChanges<[Element]>> {
+    func asChangesObservable() -> Observable<RealmCollectionChanges<[Element]>> {
         return Observable.create { observer in
             let notification = self.observe({ (change) in
                 
@@ -112,7 +112,7 @@ public extension RealmCollection {
         }
     }
     
-    public func asObservable() -> Observable<[Element]> {
+    func asObservable() -> Observable<[Element]> {
         return Observable.create { observer in
             return self.asChangesObservable().subscribe(onNext: { (changes) in
                 switch changes {
