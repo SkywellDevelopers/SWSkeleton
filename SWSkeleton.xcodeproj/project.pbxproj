@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3E7353D120D7C2F8006AD64E /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7353D020D7C2F8006AD64E /* Functions.swift */; };
+		5F4B328522E9A71600787B08 /* RealmWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4B328422E9A71600787B08 /* RealmWorker.swift */; };
+		5F4B328722E9A75000787B08 /* ThreadRunLoopWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4B328622E9A75000787B08 /* ThreadRunLoopWorker.swift */; };
 		5F7C141B228C61B8001FD01A /* RealmExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7C141A228C61B8001FD01A /* RealmExtensions.swift */; };
 		AB0340EB20161D7B00EDE101 /* OptionalExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0340EA20161D7B00EDE101 /* OptionalExtensions.swift */; };
 		AB0340ED20161DC000EDE101 /* UINavigationControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0340EC20161DC000EDE101 /* UINavigationControllerExtensions.swift */; };
@@ -56,6 +58,8 @@
 
 /* Begin PBXFileReference section */
 		3E7353D020D7C2F8006AD64E /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
+		5F4B328422E9A71600787B08 /* RealmWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmWorker.swift; sourceTree = "<group>"; };
+		5F4B328622E9A75000787B08 /* ThreadRunLoopWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadRunLoopWorker.swift; sourceTree = "<group>"; };
 		5F7C141A228C61B8001FD01A /* RealmExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmExtensions.swift; sourceTree = "<group>"; };
 		783940CE55913BB344ED91F7 /* Pods_SWSkeleton.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SWSkeleton.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8437B6F28CEFA8AAC1E6C991 /* Pods-SWSkeleton.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SWSkeleton.release.xcconfig"; path = "Pods/Target Support Files/Pods-SWSkeleton/Pods-SWSkeleton.release.xcconfig"; sourceTree = "<group>"; };
@@ -182,6 +186,8 @@
 				AB2FCA3A2015F69300EBA687 /* RealmClientProtocol.swift */,
 				AB2FCA3B2015F69300EBA687 /* RxRealmExtensions.swift */,
 				5F7C141A228C61B8001FD01A /* RealmExtensions.swift */,
+				5F4B328422E9A71600787B08 /* RealmWorker.swift */,
+				5F4B328622E9A75000787B08 /* ThreadRunLoopWorker.swift */,
 			);
 			path = DataBaseLayer;
 			sourceTree = "<group>";
@@ -398,6 +404,7 @@
 				AB0340ED20161DC000EDE101 /* UINavigationControllerExtensions.swift in Sources */,
 				AB2FCA672015F69300EBA687 /* ApiRequestProtocol.swift in Sources */,
 				AB2FCA5E2015F69300EBA687 /* ViewController.swift in Sources */,
+				5F4B328522E9A71600787B08 /* RealmWorker.swift in Sources */,
 				AB2FCA642015F69300EBA687 /* ErrorHandler.swift in Sources */,
 				AB2FCA652015F69300EBA687 /* StatusCodeProtocol.swift in Sources */,
 				AB2FCA722015F69300EBA687 /* ViewModelProtocol.swift in Sources */,
@@ -426,6 +433,7 @@
 				AB2FCA6F2015F69300EBA687 /* PaginationProtocol.swift in Sources */,
 				AB2FCA5A2015F69300EBA687 /* ProductsModel.swift in Sources */,
 				AB0340F120161E1F00EDE101 /* UIColorExtensions.swift in Sources */,
+				5F4B328722E9A75000787B08 /* ThreadRunLoopWorker.swift in Sources */,
 				AB2FCA712015F69300EBA687 /* ViewModelDataProtocol.swift in Sources */,
 				AB2FCA732015F69300EBA687 /* BaseUIKit.swift in Sources */,
 				AB2FCA5D2015F69300EBA687 /* View.swift in Sources */,

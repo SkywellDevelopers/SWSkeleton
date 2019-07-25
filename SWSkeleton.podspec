@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 s.name             = 'SWSkeleton'
-s.version          = '0.2.9'
+s.version          = '0.3.0'
 s.summary          = 'MVVM application skeleton'
 
 # This description is used to generate tags and improve search results.
@@ -10,7 +10,7 @@ s.summary          = 'MVVM application skeleton'
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
 s.description      = <<-DESC
-List of used protocols
+Group of useful utilities and extensions to make application development process quicker
 DESC
 
 s.homepage         = 'https://github.com/SkywellDevelopers/SWSkeleton'
