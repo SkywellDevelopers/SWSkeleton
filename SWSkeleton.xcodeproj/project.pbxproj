@@ -9,8 +9,12 @@
 /* Begin PBXBuildFile section */
 		3E7353D120D7C2F8006AD64E /* Functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7353D020D7C2F8006AD64E /* Functions.swift */; };
 		5F4B328522E9A71600787B08 /* RealmWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4B328422E9A71600787B08 /* RealmWorker.swift */; };
-		5F4B328722E9A75000787B08 /* ThreadRunLoopWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4B328622E9A75000787B08 /* ThreadRunLoopWorker.swift */; };
 		5F7C141B228C61B8001FD01A /* RealmExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7C141A228C61B8001FD01A /* RealmExtensions.swift */; };
+		5FD907AD23D71D5F0093E518 /* ServerTrustPolicyManagerExtenstions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD907AC23D71D5F0093E518 /* ServerTrustPolicyManagerExtenstions.swift */; };
+		5FD907AF23D71D7A0093E518 /* SessionManagerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD907AE23D71D7A0093E518 /* SessionManagerExtensions.swift */; };
+		5FD907B123D71DD50093E518 /* SessionManagerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD907B023D71DD50093E518 /* SessionManagerConfig.swift */; };
+		5FD907B323D71E180093E518 /* ThreadSchedulerWithRunLoop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD907B223D71E180093E518 /* ThreadSchedulerWithRunLoop.swift */; };
+		5FD907B523D71E360093E518 /* ThreadWithRunLoop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FD907B423D71E360093E518 /* ThreadWithRunLoop.swift */; };
 		AB0340EB20161D7B00EDE101 /* OptionalExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0340EA20161D7B00EDE101 /* OptionalExtensions.swift */; };
 		AB0340ED20161DC000EDE101 /* UINavigationControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0340EC20161DC000EDE101 /* UINavigationControllerExtensions.swift */; };
 		AB0340EF20161DED00EDE101 /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0340EE20161DED00EDE101 /* ArrayExtensions.swift */; };
@@ -59,8 +63,12 @@
 /* Begin PBXFileReference section */
 		3E7353D020D7C2F8006AD64E /* Functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Functions.swift; sourceTree = "<group>"; };
 		5F4B328422E9A71600787B08 /* RealmWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmWorker.swift; sourceTree = "<group>"; };
-		5F4B328622E9A75000787B08 /* ThreadRunLoopWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadRunLoopWorker.swift; sourceTree = "<group>"; };
 		5F7C141A228C61B8001FD01A /* RealmExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmExtensions.swift; sourceTree = "<group>"; };
+		5FD907AC23D71D5F0093E518 /* ServerTrustPolicyManagerExtenstions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerTrustPolicyManagerExtenstions.swift; sourceTree = "<group>"; };
+		5FD907AE23D71D7A0093E518 /* SessionManagerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManagerExtensions.swift; sourceTree = "<group>"; };
+		5FD907B023D71DD50093E518 /* SessionManagerConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManagerConfig.swift; sourceTree = "<group>"; };
+		5FD907B223D71E180093E518 /* ThreadSchedulerWithRunLoop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadSchedulerWithRunLoop.swift; sourceTree = "<group>"; };
+		5FD907B423D71E360093E518 /* ThreadWithRunLoop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadWithRunLoop.swift; sourceTree = "<group>"; };
 		783940CE55913BB344ED91F7 /* Pods_SWSkeleton.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SWSkeleton.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8437B6F28CEFA8AAC1E6C991 /* Pods-SWSkeleton.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SWSkeleton.release.xcconfig"; path = "Pods/Target Support Files/Pods-SWSkeleton/Pods-SWSkeleton.release.xcconfig"; sourceTree = "<group>"; };
 		AB0340EA20161D7B00EDE101 /* OptionalExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionalExtensions.swift; sourceTree = "<group>"; };
@@ -134,6 +142,8 @@
 				AB0340F420161E8B00EDE101 /* UIApplicationExtensions.swift */,
 				AB0340F82016216A00EDE101 /* StringExtensions.swift */,
 				3E7353D020D7C2F8006AD64E /* Functions.swift */,
+				5FD907AC23D71D5F0093E518 /* ServerTrustPolicyManagerExtenstions.swift */,
+				5FD907AE23D71D7A0093E518 /* SessionManagerExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -187,7 +197,8 @@
 				AB2FCA3B2015F69300EBA687 /* RxRealmExtensions.swift */,
 				5F7C141A228C61B8001FD01A /* RealmExtensions.swift */,
 				5F4B328422E9A71600787B08 /* RealmWorker.swift */,
-				5F4B328622E9A75000787B08 /* ThreadRunLoopWorker.swift */,
+				5FD907B223D71E180093E518 /* ThreadSchedulerWithRunLoop.swift */,
+				5FD907B423D71E360093E518 /* ThreadWithRunLoop.swift */,
 			);
 			path = DataBaseLayer;
 			sourceTree = "<group>";
@@ -207,6 +218,7 @@
 				AB2FCA412015F69300EBA687 /* ApiClientProtocol.swift */,
 				AB2FCA422015F69300EBA687 /* ApiRequestProtocol.swift */,
 				AB2FCA432015F69300EBA687 /* Parser.swift */,
+				5FD907B023D71DD50093E518 /* SessionManagerConfig.swift */,
 			);
 			path = NetworkLayer;
 			sourceTree = "<group>";
@@ -411,6 +423,7 @@
 				AB0340F520161E8B00EDE101 /* UIApplicationExtensions.swift in Sources */,
 				AB0340F92016216A00EDE101 /* StringExtensions.swift in Sources */,
 				AB2FCA622015F69300EBA687 /* RxRealmExtensions.swift in Sources */,
+				5FD907B323D71E180093E518 /* ThreadSchedulerWithRunLoop.swift in Sources */,
 				AB0340EF20161DED00EDE101 /* ArrayExtensions.swift in Sources */,
 				AB2FCA772015F69300EBA687 /* TableAndCollectionHelpers.swift in Sources */,
 				AB0340EB20161D7B00EDE101 /* OptionalExtensions.swift in Sources */,
@@ -422,18 +435,20 @@
 				AB2FCA6D2015F69300EBA687 /* GobalVariablePlaceholders.swift in Sources */,
 				3E7353D120D7C2F8006AD64E /* Functions.swift in Sources */,
 				AB2FCA692015F69300EBA687 /* RepositoryProtocol.swift in Sources */,
+				5FD907B523D71E360093E518 /* ThreadWithRunLoop.swift in Sources */,
 				AB2FCA6B2015F69300EBA687 /* DefaultLoaderView.swift in Sources */,
 				AB2FCA6C2015F69300EBA687 /* DefaultProtocols.swift in Sources */,
 				AB2FCA602015F69300EBA687 /* ViewModelData.swift in Sources */,
 				AB2FCA592015F69300EBA687 /* MainRepository.swift in Sources */,
 				AB2FCA742015F69300EBA687 /* LoadingViewProtocol.swift in Sources */,
+				5FD907B123D71DD50093E518 /* SessionManagerConfig.swift in Sources */,
 				AB2FCA5B2015F69300EBA687 /* RealmBaseConfigurator.swift in Sources */,
 				AB2FCA572015F69300EBA687 /* GetProductsRequest.swift in Sources */,
 				AB2FCA582015F69300EBA687 /* LocalStorage.swift in Sources */,
 				AB2FCA6F2015F69300EBA687 /* PaginationProtocol.swift in Sources */,
 				AB2FCA5A2015F69300EBA687 /* ProductsModel.swift in Sources */,
 				AB0340F120161E1F00EDE101 /* UIColorExtensions.swift in Sources */,
-				5F4B328722E9A75000787B08 /* ThreadRunLoopWorker.swift in Sources */,
+				5FD907AF23D71D7A0093E518 /* SessionManagerExtensions.swift in Sources */,
 				AB2FCA712015F69300EBA687 /* ViewModelDataProtocol.swift in Sources */,
 				AB2FCA732015F69300EBA687 /* BaseUIKit.swift in Sources */,
 				AB2FCA5D2015F69300EBA687 /* View.swift in Sources */,
@@ -441,6 +456,7 @@
 				AB2FCA752015F69300EBA687 /* RegisterViewProtocol.swift in Sources */,
 				AB2FCA662015F69300EBA687 /* ApiClientProtocol.swift in Sources */,
 				AB2FCA702015F69300EBA687 /* StoryboardProtocol.swift in Sources */,
+				5FD907AD23D71D5F0093E518 /* ServerTrustPolicyManagerExtenstions.swift in Sources */,
 				AB0340F72016206600EDE101 /* DictionaryExtensions.swift in Sources */,
 				AB2FCA6A2015F69300EBA687 /* DefaultErrorHandler.swift in Sources */,
 				AB2FCA762015F69300EBA687 /* ShadowleProtocol.swift in Sources */,

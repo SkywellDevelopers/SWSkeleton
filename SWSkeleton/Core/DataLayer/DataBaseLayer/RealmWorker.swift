@@ -10,6 +10,7 @@ import RealmSwift
 import RxSwift
 
 public final class RealmWorker {
+    public static let shared = RealmWorker(realmConfiguration: .defaultConfiguration, name: "SharedRealmDB")
     
     enum Error: Swift.Error {
         case realmCreationFailed
@@ -19,59 +20,85 @@ public final class RealmWorker {
     public enum EitherReferenceObject<T: Object> {
         case object(T)
         case reference(ThreadSafeReference<T>)
-    }
-    
-    static private let internalQueue = DispatchQueue(label: "RealmDBInternalQueue")
-    static private let internalThread = ThreadRunLoopWorker(label: "RealmDBInternalThread")
-    
-    private init() { }
-    
-    static public func safeWrite(_ closure: @escaping (Realm) throws -> Void) -> Single<()> {
-        return Single.create { [worker = self] eventHander in
-            worker.internalQueue.async {
-                worker.internalThread.job { autoreleasepool {
-                    guard let realm = try? Realm() else {
-                        eventHander(.error(Error.realmCreationFailed))
-                        return
-                    }
-                    if let _ = try? realm.safeWrite ({ try closure(realm) }) {
-                        eventHander(.success(()))
-                    } else {
-                        eventHander(.error(Error.writeTransactionFailed))
-                    }
-                    }}
+        
+        public func resolve(on realm: Realm) -> T? {
+            switch self {
+            case .object(let object): return object
+            case .reference(let ref): return realm.resolve(ref)
             }
-            
-            return Disposables.create()
         }
     }
     
-    static public func safeObservation<T>(_ closure: @escaping (Realm) -> Observable<T>) -> Observable<T> {
-        return Observable.create { [worker = self] observer in
-            var subscription: Disposable?
-            let cancelable = Disposables.create { subscription?.dispose() }
-            
-            worker.internalQueue.async {
-                worker.internalThread.job { try? autoreleasepool {
-                    guard !cancelable.isDisposed else { return }
-                    let realm = try Realm()
-                    subscription = closure(realm).subscribe(observer)
-                    }}
-            }
-            
-            return cancelable
+    private let _realmConfiguration: Realm.Configuration
+    private let _threadScheduler: ThreadSchedulerWithRunLoop
+    private let _concurrentScheduler = ConcurrentDispatchQueueScheduler(qos: .utility)
+    
+    public init(realmConfiguration: Realm.Configuration, name: String) {
+        self._realmConfiguration = realmConfiguration
+        self._threadScheduler = ThreadSchedulerWithRunLoop(name: name)
+    }
+    
+    public func safeWrite(_ closure: @escaping (Realm) -> Void) -> Single<()> {
+        return Single
+            .create(subscribe: { eventHandler in
+                let cancelable = Disposables.create()
+
+                guard let realm = try? Realm(configuration: self._realmConfiguration) else {
+                    eventHandler(.error(Error.realmCreationFailed))
+                    return cancelable
+                }
+
+                if let _ = try? realm.safeWrite ({ closure(realm) }) { eventHandler(.success(())) }
+                else { eventHandler(.error(Error.writeTransactionFailed)) }
+                
+                return cancelable
+            })
+            .subscribeOn(self._threadScheduler)
+        
+    }
+    
+    public func asyncSafeWrite(_ closure: @escaping (Realm) -> Void) {
+        self._threadScheduler.perform {
+            guard let realm = try? Realm(configuration: self._realmConfiguration) else { return }
+            closure(realm)
         }
     }
-    static public func unsafeWork<T>(_ closure: (Realm) throws -> T) throws -> T {
-        let realm  = try Realm()
+    
+    private func _observation<T>(_ closure: @escaping (Realm) -> Observable<T>) -> Observable<T> {
+        return Observable
+            .create({ observer in
+                var subscription: Disposable?
+                let cancelable = Disposables.create { subscription?.dispose() }
+                
+                guard let realm = try? Realm(configuration: self._realmConfiguration) else {
+                    observer.onError(Error.realmCreationFailed)
+                    return cancelable
+                }
+                guard !cancelable.isDisposed else { return cancelable }
+                subscription = closure(realm).subscribe(observer)
+                
+                return cancelable
+            })
+    }
+    
+    public func safeObservation<T>(_ closure: @escaping (Realm) -> Observable<T>) -> Observable<T> {
+        return self._observation(closure).subscribeOn(self._threadScheduler)
+    }
+    
+    public func unsafeObservation<T>(_ closure: @escaping (Realm) -> Observable<T>) -> Observable<T> {
+        return self._observation(closure).subscribeOn(self._concurrentScheduler)
+    }
+    
+    public func unsafeWork<T>(_ closure: (Realm) throws -> T) throws -> T {
+        let realm  = try Realm(configuration: self._realmConfiguration)
         return try closure(realm)
     }
     
-    static public func reference<T: ThreadConfined>(to object: T) -> ThreadSafeReference<T>? {
+    public static func reference<T: ThreadConfined>(to object: T) -> ThreadSafeReference<T>? {
         return object.realm.map { _ in ThreadSafeReference(to: object) }
     }
     
-    static public func eitherReferenceObject<T: Object>(to object: T) -> EitherReferenceObject<T> {
+    public static func eitherReferenceObject<T: Object>(to object: T) -> EitherReferenceObject<T> {
         guard let ref = self.reference(to: object) else { return EitherReferenceObject.object(object) }
         return EitherReferenceObject.reference(ref)
     }
