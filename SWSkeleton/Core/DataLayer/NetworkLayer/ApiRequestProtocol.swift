@@ -25,26 +25,26 @@ public protocol ApiRequestProtocol {
 }
 
 public extension ApiRequestProtocol {
-    public var sessionManager: SessionManager {
+    var sessionManager: SessionManager {
         return .skeleton
     }
-    public var HTTPMethod: HTTPMethod {
+    var HTTPMethod: HTTPMethod {
         return .get
     }
-    public var parameters: Parameters {
+    var parameters: Parameters {
         return self.modelToSend?.toJSON() ?? [:]
     }
-    public var modelToSend: ModelProtocol? {
+    var modelToSend: ModelProtocol? {
         return nil
     }
-    public var headers: HTTPHeaders {
+    var headers: HTTPHeaders {
         return [:]
     }
-    public var encoding: ParameterEncoding {
+    var encoding: ParameterEncoding {
         return JSONEncoding.default
     }
     
-    public var dataRequest: DataRequest {
+    var dataRequest: DataRequest {
         let request = self.sessionManager.request(self.url,
                                                   method: self.HTTPMethod,
                                                   parameters: self.parameters,
@@ -53,19 +53,19 @@ public extension ApiRequestProtocol {
         return request
     }
     
-    public var needsValidation: Bool {
+    var needsValidation: Bool {
         return true
     }
     
-    public var validStatusCodeRanges: [Int] {
+    var validStatusCodeRanges: [Int] {
         return DataManager.shared.validStatusCodeRanges
     }
     
-    public var logRequestDescription: Bool {
+    var logRequestDescription: Bool {
         return true
     }
     
-    public var logResponseDescription: Bool {
+    var logResponseDescription: Bool {
         return true
     }
     

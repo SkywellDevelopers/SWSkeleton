@@ -9,13 +9,13 @@
 import UIKit
 
 public extension UIColor {
-    public convenience init(hex: String) {
+    convenience init(hex: String) {
         let color = UIColor.getRGBValue(fromHex: hex)
         self.init(red: color.red, green: color.green, blue: color.blue, alpha: 1.0)
     }
     
-    public typealias Color = (red: CGFloat, green: CGFloat, blue: CGFloat)
-    public static func getRGBValue(fromHex hex: String) -> Color {
+    typealias Color = (red: CGFloat, green: CGFloat, blue: CGFloat)
+    static func getRGBValue(fromHex hex: String) -> Color {
         var cString: String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
         
         if cString.hasPrefix("#") {

@@ -36,7 +36,7 @@ public protocol BaseViewModelProtocol: ViewModelBase {
 }
 
 public protocol RxBaseViewModelProtocol: ViewModelBase {
-    var requestStatus: Variable<RequestStatusType> { get }
+    var requestStatus: BehaviorRelay<RequestStatusType> { get }
 }
 
 /// Update protocol

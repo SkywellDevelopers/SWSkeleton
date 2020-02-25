@@ -57,13 +57,13 @@ final class ViewModel: SWViewModelProtocol, DataContainerProtocol {
 
 final class RxViewModel: SWRxViewModelProtocol, DataContainerProtocol {
     
-    typealias DataType = Variable<[Product]>
+    typealias DataType = BehaviorRelay<[Product]>
     
-    var data = DataType([])
+    var data = DataType(value: [])
     
     typealias ModelType = [ProductModel]
     
-    var requestStatus: Variable<SWRequestStatus> = Variable<SWRequestStatus>(.default)
+    var requestStatus: BehaviorRelay<SWRequestStatus> = BehaviorRelay(value: .default)
     
     private let disposeBag = DisposeBag()
     private var disposable: Disposable?
@@ -72,28 +72,24 @@ final class RxViewModel: SWRxViewModelProtocol, DataContainerProtocol {
     
     init() {
         self.model = ModelType()
-//        self.data = Observable.deferred { () -> DataType in
-//            return MainRepository.getProducts().map({ $0.map({ Product($0) }) })
-//        }
-//        self.data.value = self.model.map({ Product($0) })
     }
     
     func set(_ model: ModelType) {
         self.model = model
-        self.data.value = self.model.map({ Product($0) })
+        self.data.accept(self.model.map({ Product($0) }))
     }
     
     func update() {
-        self.requestStatus.value = .loading
+        self.requestStatus.accept(.loading)
         MainRepository.getProducts()
             .subscribe(onNext: { [weak self] (products) in
                 self?.set(products)
-                self?.requestStatus.value = .success
+                self?.requestStatus.accept(.success)
             }, onError: { [weak self] (error) in
-                self?.requestStatus.value = .error(SWErrorHandler.handleError(error))
+                self?.requestStatus.accept(.error(SWErrorHandler.handleError(error)))
             }, onDisposed: { [weak self] in
-                self?.requestStatus.value = .default
-                self?.data.value.removeAll()
+                self?.requestStatus.accept(.default)
+                self?.data.accept([])
             }).disposed(by: self.disposeBag)
     }
 }
