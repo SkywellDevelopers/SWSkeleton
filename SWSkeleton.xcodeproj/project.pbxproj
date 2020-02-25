@@ -50,6 +50,7 @@
 		AB2FCA772015F69300EBA687 /* TableAndCollectionHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2FCA562015F69300EBA687 /* TableAndCollectionHelpers.swift */; };
 		ABF23A402004E791006C4D73 /* SWSkeleton.h in Headers */ = {isa = PBXBuildFile; fileRef = ABF23A3E2004E791006C4D73 /* SWSkeleton.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C3FC7873719C4C5D954176D0 /* Pods_SWSkeleton.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 783940CE55913BB344ED91F7 /* Pods_SWSkeleton.framework */; };
+		CE9B3259240510E600047881 /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9B3258240510E600047881 /* UIViewControllerExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -99,6 +100,7 @@
 		ABF23A3B2004E791006C4D73 /* SWSkeleton.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SWSkeleton.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABF23A3E2004E791006C4D73 /* SWSkeleton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SWSkeleton.h; sourceTree = "<group>"; };
 		ABF23A3F2004E791006C4D73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE9B3258240510E600047881 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
 		CF24BA3DF636BB4B0DF3DF9D /* Pods-SWSkeleton.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SWSkeleton.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SWSkeleton/Pods-SWSkeleton.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -125,6 +127,7 @@
 				AB0340F220161E5500EDE101 /* UIViewExtensions.swift */,
 				AB0340F420161E8B00EDE101 /* UIApplicationExtensions.swift */,
 				AB0340F82016216A00EDE101 /* StringExtensions.swift */,
+				CE9B3258240510E600047881 /* UIViewControllerExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -422,6 +425,7 @@
 				AB2FCA5D2015F69300EBA687 /* View.swift in Sources */,
 				AB2FCA682015F69300EBA687 /* Parser.swift in Sources */,
 				AB2FCA752015F69300EBA687 /* RegisterViewProtocol.swift in Sources */,
+				CE9B3259240510E600047881 /* UIViewControllerExtensions.swift in Sources */,
 				AB2FCA662015F69300EBA687 /* ApiClientProtocol.swift in Sources */,
 				AB2FCA702015F69300EBA687 /* StoryboardProtocol.swift in Sources */,
 				AB0340F72016206600EDE101 /* DictionaryExtensions.swift in Sources */,
@@ -565,7 +569,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Korchak-Mykhail.SWSkeleton";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -587,7 +591,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Korchak-Mykhail.SWSkeleton";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
