@@ -21,8 +21,8 @@ public extension SessionManager {
         )
     }
     
-    static func update(
-        with trustPolicyManager: ServerTrustPolicyManager?,
+    static func getUpdatedConfigAndBuild(
+        withTrustPolicyManager trustPolicyManager: ServerTrustPolicyManager?,
         _ configUpdate: @escaping (inout SessionManagerConfig) -> Void)
         -> (SessionManager) -> SessionManager {
             

@@ -408,11 +408,9 @@ public extension ApiClientProtocol {
         switch response.result {
         case .success(let value):
             guard let json = value as? DictionaryAlias else {
-                #if DEBUG
-                fatalError("Cannot cast response to type [String: Any]")
-                #else
+                NSLog("Cannot cast response to type [String: Any]")
+                failure(ErrorHandlerType.ErrorType.default)
                 return
-                #endif
             }
             let model = T.self.init(JSON: json)
             success(model)
@@ -433,13 +431,9 @@ public extension ApiClientProtocol {
         switch response.result {
         case .success(let value):
             guard let jsons = value as? ArrayOfDictionaries else {
-                let message = "Cannot cast response to type [[String: Any]]"
-                #if DEBUG
-                fatalError(message)
-                #else
-                NSLog(message)
+                NSLog("Cannot cast response to type [[String: Any]]")
+                failure(ErrorHandlerType.ErrorType.default)
                 return
-                #endif
             }
             let objects: [T] = [T](JSONArray: jsons) ?? []
             success(objects)
