@@ -30,17 +30,4 @@ public extension UIApplication {
         }
         return base
     }
-
-    static var statusBar: UIView? {
-        return UIApplication.shared.value(forKey: "statusBar") as? UIView
-    }
-    
-    static var statusBarIsHidden: Bool {
-        get {
-            return self.statusBar?.alpha == 0 ? true : false
-        }
-        set {
-            self.statusBar?.alpha = newValue ? 0 : 1
-        }
-    }
 }
