@@ -16,17 +16,19 @@ public struct SessionManagerConfig {
     public var requestAdapter: RequestAdapter?
     public var startRequestsImmediately: Bool
     public var timeoutIntervalForRequest: TimeInterval
+    public var timeoutIntervalForResource: TimeInterval
     
     public var sessionManager: SessionManager {
         let configuration = URLSessionConfiguration.default
-        configuration.httpAdditionalHeaders = self.httpAdditionalHeaders
-        configuration.timeoutIntervalForRequest = self.timeoutIntervalForRequest
+        configuration.httpAdditionalHeaders = httpAdditionalHeaders
+        configuration.timeoutIntervalForRequest = timeoutIntervalForRequest
+        configuration.timeoutIntervalForResource = timeoutIntervalForResource
         let sessionManager = SessionManager(configuration: configuration,
-                                            delegate: self.sessionDelegate,
-                                            serverTrustPolicyManager: self.trustPolicyManager)
-        sessionManager.retrier = self.requestRetrier
-        sessionManager.adapter = self.requestAdapter
-        sessionManager.startRequestsImmediately = self.startRequestsImmediately
+                                            delegate: sessionDelegate,
+                                            serverTrustPolicyManager: trustPolicyManager)
+        sessionManager.retrier = requestRetrier
+        sessionManager.adapter = requestAdapter
+        sessionManager.startRequestsImmediately = startRequestsImmediately
         return sessionManager
     }
 }

@@ -17,13 +17,15 @@ public extension SessionManager {
             requestRetrier: self.retrier,
             requestAdapter: self.adapter,
             startRequestsImmediately: self.startRequestsImmediately,
-            timeoutIntervalForRequest: self.session.configuration.timeoutIntervalForRequest
+            timeoutIntervalForRequest: self.session.configuration.timeoutIntervalForRequest,
+            timeoutIntervalForResource: self.session.configuration.timeoutIntervalForResource
         )
     }
     
     static func getUpdatedConfigAndBuild(
         withTrustPolicyManager trustPolicyManager: ServerTrustPolicyManager?,
-        _ configUpdate: @escaping (inout SessionManagerConfig) -> Void)
+        _ configUpdate: @escaping (inout SessionManagerConfig) -> Void
+    )
         -> (SessionManager) -> SessionManager {
             
             return { sessionManager in
